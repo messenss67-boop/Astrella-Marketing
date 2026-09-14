@@ -10,7 +10,6 @@ import { Work } from "@/components/astrella/work";
 import { Marquee } from "@/components/astrella/marquee";
 import { Process } from "@/components/astrella/process";
 import { About } from "@/components/astrella/about";
-import { Voices } from "@/components/astrella/voices";
 import { Closing } from "@/components/astrella/closing";
 import { Footer } from "@/components/astrella/footer";
 
@@ -67,12 +66,11 @@ function Home() {
           <Marquee />
           <Manifesto />
           <Principles />
-          <Services />
           <Work />
+          <Services />
           <Marquee duration={64} />
           <Process />
           <About />
-          <Voices />
           <Closing />
         </main>
         <Footer />

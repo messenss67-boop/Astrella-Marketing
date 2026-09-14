@@ -44,7 +44,7 @@ export function Services() {
       className="shell scroll-mt-24 py-24 sm:py-32"
       aria-labelledby="services-heading"
     >
-      <SectionLabel index="02" title="Services" />
+      <SectionLabel index="03" title="Services" />
 
       <h2 id="services-heading" className="display mt-10 text-[clamp(2.5rem,7vw,6rem)]">
         <RevealLines lines={[<>A focused offer.</>, <>Built for real work.</>]} />

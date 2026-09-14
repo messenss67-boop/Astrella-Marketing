@@ -11,7 +11,7 @@ export function Work() {
   return (
     <section id="work" className="scroll-mt-24 py-24 sm:py-32" aria-labelledby="work-heading">
       <div className="shell">
-        <SectionLabel index="03" title="Selected work" />
+        <SectionLabel index="02" title="Selected work" />
 
         <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <h2 id="work-heading" className="display text-[clamp(2.5rem,7vw,6rem)]">
