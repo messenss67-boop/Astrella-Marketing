@@ -1,8 +1,10 @@
-import work02 from "@/assets/work-02.jpg";
 import work03 from "@/assets/work-03.jpg";
 import editorialCommerce1 from "@/assets/editorial-commerce-1.png";
 import editorialCommerce2 from "@/assets/editorial-commerce-2.png";
 import editorialCommerce3 from "@/assets/editorial-commerce-3.png";
+import socialMediaMarketing1 from "@/assets/social-media-marketing-1.png";
+import socialMediaMarketing2 from "@/assets/social-media-marketing-2.png";
+import socialMediaMarketing3 from "@/assets/social-media-marketing-3.png";
 
 export interface Project {
   id: string;
@@ -57,14 +59,15 @@ export const PROJECTS: Project[] = [
   {
     id: "social-system",
     index: "02",
-    title: "Social system",
+    title: "Social Media Marketing",
     client: "Independent concept",
     industry: "Hospitality",
     service: "Brand & content direction",
     year: "Concept",
     summary:
       "A content system built around structure, mood and repeatable execution so the brand could appear clearer and more distinct across multiple channels.",
-    image: work02,
+    image: socialMediaMarketing1,
+    images: [socialMediaMarketing1, socialMediaMarketing2, socialMediaMarketing3],
     scope: ["Strategy", "Content direction", "Creative system", "Campaign planning"],
     sections: [
       {
