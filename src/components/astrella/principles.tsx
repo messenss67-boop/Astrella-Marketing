@@ -1,0 +1,60 @@
+import { Reveal, SectionLabel } from "./reveal";
+import { Star } from "./star";
+
+const PRINCIPLES = [
+  {
+    n: "01",
+    title: "Small by design",
+    body: "A studio of a few, not a floor of many. Fewer clients, longer attention spans, better work.",
+  },
+  {
+    n: "02",
+    title: "Strategy before decoration",
+    body: "Beauty without a point is wallpaper. Every decision starts with what the brand needs to prove.",
+  },
+  {
+    n: "03",
+    title: "Obsessed with detail",
+    body: "Kerning, easing curves, the weight of a hover. The things nobody names but everybody feels.",
+  },
+  {
+    n: "04",
+    title: "Built to perform",
+    body: "Fast, accessible, measurable. A site that looks expensive and behaves even better.",
+  },
+];
+
+export function Principles() {
+  return (
+    <section className="shell py-24 sm:py-32" aria-labelledby="principles-heading">
+      <SectionLabel index="01" title="Why Astrella" />
+
+      <h2 id="principles-heading" className="sr-only">
+        Why Astrella
+      </h2>
+
+      <div className="mt-14 border-t border-line">
+        {PRINCIPLES.map((p, i) => (
+          <Reveal key={p.n} delay={i * 60}>
+            <article className="group grid items-baseline gap-4 border-b border-line py-10 sm:grid-cols-12 sm:gap-8 sm:py-14">
+              <div className="sm:col-span-3">
+                <span className="label-xs transition-colors duration-500 group-hover:text-lavender">
+                  {p.n}
+                </span>
+              </div>
+              <div className="sm:col-span-5">
+                <h3 className="font-serif text-[clamp(1.75rem,3.2vw,2.75rem)] leading-tight tracking-tight text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
+                  {p.title}
+                </h3>
+              </div>
+              <div className="flex items-start gap-6 sm:col-span-4">
+                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                <Star className="mt-1 h-3 w-3 shrink-0 text-lavender opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,82 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { InquiryProvider } from "@/components/astrella/inquiry";
+import { CustomCursor } from "@/components/astrella/cursor";
+import { Nav } from "@/components/astrella/nav";
+import { Hero } from "@/components/astrella/hero";
+import { Manifesto } from "@/components/astrella/manifesto";
+import { Principles } from "@/components/astrella/principles";
+import { Services } from "@/components/astrella/services";
+import { Work } from "@/components/astrella/work";
+import { Marquee } from "@/components/astrella/marquee";
+import { Process } from "@/components/astrella/process";
+import { About } from "@/components/astrella/about";
+import { Voices } from "@/components/astrella/voices";
+import { Closing } from "@/components/astrella/closing";
+import { Footer } from "@/components/astrella/footer";
+
+const TITLE = "Astrella Marketing — Boutique creative studio for sharper brands";
+const DESCRIPTION =
+  "Astrella is a boutique creative studio building considered websites, identity systems and digital experiences for brands that want a clearer point of view.";
+
+export const Route = createFileRoute("/")({
+  component: Home,
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Astrella Marketing",
+          description: DESCRIPTION,
+          email: "hello@astrellamarketing.com",
+          areaServed: "Worldwide",
+          knowsAbout: [
+            "Website design",
+            "Website development",
+            "Brand identity",
+            "Creative direction",
+            "Digital strategy",
+          ],
+        }),
+      },
+    ],
+  }),
+});
+
+function Home() {
+  return (
+    <InquiryProvider>
+      <div className="grain">
+        <CustomCursor />
+        <Nav />
+        <main>
+          <Hero />
+          <Marquee />
+          <Manifesto />
+          <Principles />
+          <Services />
+          <Work />
+          <Marquee duration={64} />
+          <Process />
+          <About />
+          <Voices />
+          <Closing />
+        </main>
+        <Footer />
+      </div>
+    </InquiryProvider>
+  );
+}
