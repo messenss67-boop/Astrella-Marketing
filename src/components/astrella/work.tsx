@@ -69,7 +69,7 @@ function ProjectImages({ images, title }: { images: string[]; title: string }) {
       <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-700 group-hover:opacity-0" />
 
       {images.length > 1 && (
-        <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+        <div className="absolute bottom-2 right-2 z-10 flex items-center">
           {images.map((_, i) => (
             <button
               key={i}
@@ -81,10 +81,14 @@ function ProjectImages({ images, title }: { images: string[]; title: string }) {
               aria-label={`Show image ${i + 1} of ${images.length}`}
               aria-current={i === active}
               data-cursor="cta"
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === active ? "w-5 bg-gold" : "w-1.5 bg-ivory/40 hover:bg-gold/70"
-              }`}
-            />
+              className="group/dot flex h-8 w-8 items-center justify-center"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-500 ${
+                  i === active ? "w-5 bg-gold" : "w-1.5 bg-ivory/40 group-hover/dot:bg-gold/70"
+                }`}
+              />
+            </button>
           ))}
         </div>
       )}
