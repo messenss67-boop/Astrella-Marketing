@@ -110,7 +110,7 @@ export function Hero() {
             <a
               href="#work"
               data-cursor="cta"
-              className="group inline-flex min-h-12 items-center justify-center gap-3 border border-line-strong px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors duration-500 hover:border-lavender hover:text-lavender sm:px-7"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 border border-line-strong px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors duration-500 hover:border-gold hover:text-gold sm:px-7"
             >
               View our work
               <span

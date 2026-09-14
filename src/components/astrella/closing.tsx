@@ -42,7 +42,7 @@ export function Closing() {
             </MagneticButton>
             <a
               href="mailto:hello@astrellamarketing.com"
-              className="link-underline py-3 text-sm tracking-wide text-ivory-dim"
+              className="link-underline py-3 text-sm tracking-wide text-ivory-dim transition-colors hover:text-gold"
             >
               hello@astrellamarketing.com
             </a>

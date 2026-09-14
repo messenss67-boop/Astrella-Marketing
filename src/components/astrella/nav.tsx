@@ -49,7 +49,7 @@ export function Nav() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="link-underline text-[0.7rem] uppercase tracking-[0.22em] text-ivory-dim transition-colors hover:text-ivory"
+                  className="link-underline text-[0.7rem] uppercase tracking-[0.22em] text-ivory-dim transition-colors hover:text-gold"
                 >
                   {l.label}
                 </a>
@@ -62,7 +62,7 @@ export function Nav() {
               type="button"
               onClick={open}
               data-cursor="cta"
-              className="group hidden items-center gap-2 border border-line-strong px-5 py-3 text-[0.65rem] uppercase tracking-[0.22em] text-ivory transition-colors duration-500 hover:border-lavender hover:text-lavender sm:inline-flex"
+              className="group hidden items-center gap-2 border border-line-strong px-5 py-3 text-[0.65rem] uppercase tracking-[0.22em] text-ivory transition-colors duration-500 hover:border-gold hover:text-gold sm:inline-flex"
             >
               Start a project <ArrowRight />
             </button>
@@ -153,7 +153,7 @@ function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => 
           </p>
           <a
             href="mailto:hello@astrellamarketing.com"
-            className="link-underline mt-4 inline-block text-sm text-ivory"
+            className="link-underline mt-4 inline-block text-sm text-ivory transition-colors hover:text-gold"
           >
             hello@astrellamarketing.com
           </a>

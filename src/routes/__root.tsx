@@ -27,7 +27,7 @@ function NotFoundComponent() {
         <div className="mt-8 flex justify-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-3 border border-line-strong px-7 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:border-lavender hover:text-lavender"
+            className="inline-flex items-center gap-3 border border-line-strong px-7 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:border-gold hover:text-gold"
           >
             Back to Astrella <span aria-hidden="true">→</span>
           </Link>

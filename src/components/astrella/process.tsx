@@ -53,43 +53,75 @@ export function Process() {
   return (
     <section
       id="process"
-      className="shell scroll-mt-24 py-24 sm:py-32"
+      className="relative overflow-hidden scroll-mt-24 py-24 sm:py-32"
       aria-labelledby="process-heading"
     >
-      <SectionLabel index="04" title="Process" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-[0.16]"
+          style={{ backgroundImage: "url(/images/nebula-constellation.jpg)" }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, var(--ink) 88%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--ink) 0%, transparent 18%, transparent 82%, var(--ink) 100%)",
+          }}
+        />
+      </div>
 
-      <h2 id="process-heading" className="display mt-10 max-w-[14ch] text-[clamp(2.5rem,7vw,6rem)]">
-        <RevealLines lines={[<>How the work</>, <>gets made.</>]} />
-      </h2>
+      <div className="shell relative">
+        <SectionLabel index="04" title="Process" />
 
-      <ol className="relative mt-16 border-t border-line">
-        {STAGES.map((s, i) => (
-          <li key={s.n}>
-            <div
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              data-index={i}
-              className="group grid gap-4 border-b border-line py-10 sm:grid-cols-12 sm:gap-8 sm:py-14"
-            >
-              <div className="flex items-center gap-4 sm:col-span-3">
-                <Star
-                  className={`h-2.5 w-2.5 shrink-0 text-lavender transition-opacity duration-500 ${
-                    active === i ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-                <span className="label-xs">{s.n}</span>
+        <h2
+          id="process-heading"
+          className="display mt-10 max-w-[14ch] text-[clamp(2.5rem,7vw,6rem)]"
+        >
+          <RevealLines lines={[<>How the work</>, <>gets made.</>]} />
+        </h2>
+
+        <ol className="relative mt-16 border-t border-line">
+          {STAGES.map((s, i) => (
+            <li key={s.n}>
+              <div
+                ref={(el) => {
+                  refs.current[i] = el;
+                }}
+                data-index={i}
+                className="group grid gap-4 border-b border-line py-10 sm:grid-cols-12 sm:gap-8 sm:py-14"
+              >
+                <div className="flex items-center gap-4 sm:col-span-3">
+                  <Star
+                    className={`h-2.5 w-2.5 shrink-0 text-lavender transition-opacity duration-500 ${
+                      active === i ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                  <span
+                    className={`label-xs transition-colors duration-500 group-hover:text-gold ${
+                      active === i ? "text-gold" : ""
+                    }`}
+                  >
+                    {s.n}
+                  </span>
+                </div>
+                <h3 className="font-serif text-[clamp(1.9rem,4vw,3rem)] leading-tight tracking-tight text-ivory sm:col-span-4">
+                  {s.title}
+                </h3>
+                <p className="max-w-lg text-sm leading-relaxed text-muted-foreground sm:col-span-5">
+                  {s.body}
+                </p>
               </div>
-              <h3 className="font-serif text-[clamp(1.9rem,4vw,3rem)] leading-tight tracking-tight text-ivory sm:col-span-4">
-                {s.title}
-              </h3>
-              <p className="max-w-lg text-sm leading-relaxed text-muted-foreground sm:col-span-5">
-                {s.body}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

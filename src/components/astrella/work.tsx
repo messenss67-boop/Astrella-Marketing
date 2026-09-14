@@ -98,7 +98,7 @@ function ProjectRow({
                   </div>
                 ))}
               </dl>
-              <span className="link-underline mt-7 inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] text-ivory">
+              <span className="link-underline mt-7 inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors duration-500 group-hover:text-gold">
                 View case <ArrowRight />
               </span>
             </div>

@@ -35,7 +35,7 @@ export function MagneticButton({
     "group inline-flex min-h-12 items-center justify-center gap-3 px-5 py-3 text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-500 ease-out will-change-transform sm:px-7 sm:py-4";
   const styles =
     variant === "primary"
-      ? "bg-ivory text-ink hover:bg-lavender"
+      ? "bg-ivory text-ink hover:bg-gold"
       : "border border-line-strong text-ivory hover:border-lavender hover:text-lavender";
 
   const mobileAlignment = "w-full justify-center sm:w-auto";

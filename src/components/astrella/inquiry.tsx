@@ -261,7 +261,7 @@ function InquiryModal() {
                 type="button"
                 onClick={close}
                 data-cursor="cta"
-                className="link-underline mt-8 text-[0.7rem] uppercase tracking-[0.2em] text-ivory"
+                className="link-underline mt-8 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:text-gold"
               >
                 Back to the site
               </button>
@@ -272,7 +272,7 @@ function InquiryModal() {
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="link-underline mt-10 self-start text-[0.7rem] uppercase tracking-[0.2em] text-faint"
+              className="link-underline mt-10 self-start text-[0.7rem] uppercase tracking-[0.2em] text-faint transition-colors hover:text-gold"
             >
               ← Back
             </button>

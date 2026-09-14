@@ -21,6 +21,7 @@
   --color-lavender: var(--lavender);
   --color-lavender-deep: var(--lavender-deep);
   --color-lavender-dark: var(--lavender-dark);
+  --color-gold: var(--gold);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
@@ -36,9 +37,10 @@
   --ink-soft: oklch(0.185 0.006 285);
   --ivory: oklch(0.958 0.014 90);
   --ivory-dim: oklch(0.872 0.014 90);
-  --lavender: oklch(0.755 0.062 300);
+  --lavender: oklch(0.78 0.1 300);
   --lavender-deep: oklch(0.655 0.079 300);
   --lavender-dark: oklch(0.505 0.078 300);
+  --gold: #e8b45a;
 
   --background: var(--ink);
   --foreground: var(--ivory);
@@ -213,10 +215,6 @@
   width: max-content;
   animation: marquee-x var(--marquee-duration, 42s) linear infinite;
   will-change: transform;
-}
-
-.marquee-host:hover .marquee-track {
-  animation-play-state: paused;
 }
 
 @keyframes drift {
