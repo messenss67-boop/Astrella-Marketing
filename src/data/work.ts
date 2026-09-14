@@ -1,6 +1,8 @@
-import work01 from "@/assets/work-01.jpg";
 import work02 from "@/assets/work-02.jpg";
 import work03 from "@/assets/work-03.jpg";
+import editorialCommerce1 from "@/assets/editorial-commerce-1.png";
+import editorialCommerce2 from "@/assets/editorial-commerce-2.png";
+import editorialCommerce3 from "@/assets/editorial-commerce-3.png";
 
 export interface Project {
   id: string;
@@ -12,6 +14,7 @@ export interface Project {
   year: string;
   summary: string;
   image: string;
+  images?: string[];
   scope: string[];
   sections: { heading: string; body: string }[];
   placeholder: true;
@@ -28,7 +31,8 @@ export const PROJECTS: Project[] = [
     year: "Concept",
     summary:
       "A storefront designed like a quiet editorial feature: slower pacing, clearer product stories and a path to purchase that never feels pushy.",
-    image: work01,
+    image: editorialCommerce1,
+    images: [editorialCommerce1, editorialCommerce2, editorialCommerce3],
     scope: ["Art direction", "UX/UI", "Development", "Performance"],
     sections: [
       {

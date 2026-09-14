@@ -38,6 +38,60 @@ export function Work() {
   );
 }
 
+function ProjectImages({ images, title }: { images: string[]; title: string }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (images.length < 2) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % images.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  return (
+    <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[7/5]">
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt={`${title} concept visual ${i + 1} of ${images.length}`}
+          width={1408}
+          height={1008}
+          loading="lazy"
+          decoding="async"
+          className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1200ms] ease-out will-change-transform group-hover:scale-[1.035] ${
+            i === active ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
+      <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-700 group-hover:opacity-0" />
+
+      {images.length > 1 && (
+        <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActive(i);
+              }}
+              aria-label={`Show image ${i + 1} of ${images.length}`}
+              aria-current={i === active}
+              data-cursor="cta"
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === active ? "w-5 bg-gold" : "w-1.5 bg-ivory/40 hover:bg-gold/70"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProjectRow({
   project,
   flip,
@@ -50,60 +104,60 @@ function ProjectRow({
   return (
     <Reveal>
       <article className="shell">
-        <button
-          type="button"
+        <div
+          role="button"
+          tabIndex={0}
           onClick={onOpen}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onOpen();
+            }
+          }}
           data-cursor="view"
           aria-label={`Open case study: ${project.title}`}
-          className="group block w-full text-left"
+          className="group block w-full cursor-pointer text-left"
         >
           <div className={`grid items-end gap-6 md:gap-8 lg:grid-cols-12 ${flip ? "" : ""}`}>
             <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-              <div className="relative overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={`${project.title} concept visual`}
-                  width={1408}
-                  height={1008}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-[4/5] w-full object-cover transition-transform duration-[1200ms] ease-out will-change-transform group-hover:scale-[1.035] sm:aspect-[7/5]"
-                />
-                <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-700 group-hover:opacity-0" />
-              </div>
+              <ProjectImages images={project.images ?? [project.image]} title={project.title} />
             </div>
 
             <div
               className={`lg:col-span-4 ${flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""}`}
             >
               <div className="flex items-baseline gap-4">
-                <span className="label-xs">{project.index}</span>
+                <span className="text-[0.6875rem] font-medium uppercase tracking-[0.32em] text-faint">
+                  {project.index}
+                </span>
                 <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
-              <h3 className="mt-4 font-serif text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.02] tracking-tight text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
+              <h3 className="mt-8 text-balance font-serif text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
                 {project.title}
               </h3>
-              <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-7 max-w-sm text-[0.8125rem] leading-[1.75] text-muted-foreground">
                 {project.summary}
               </p>
-              <dl className="mt-7 grid grid-cols-2 gap-4 border-t border-line pt-5 sm:grid-cols-3">
+              <dl className="mt-10 grid grid-cols-2 gap-4 border-t border-line pt-6 sm:grid-cols-3">
                 {[
                   ["Industry", project.industry],
                   ["Service", project.service],
                   ["Year", project.year],
                 ].map(([k, v]) => (
                   <div key={k}>
-                    <dt className="label-xs">{k}</dt>
-                    <dd className="mt-2 text-xs text-ivory-dim">{v}</dd>
+                    <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
+                      {k}
+                    </dt>
+                    <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
                   </div>
                 ))}
               </dl>
-              <span className="link-underline mt-7 inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors duration-500 group-hover:text-gold">
+              <span className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-500 group-hover:text-gold">
                 View case <ArrowRight />
               </span>
             </div>
           </div>
-        </button>
+        </div>
       </article>
     </Reveal>
   );
