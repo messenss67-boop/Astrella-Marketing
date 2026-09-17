@@ -16,6 +16,7 @@ export const Route = createFileRoute("/privacy")({
           "Astrella Marketing privacy policy describing how personal data is handled, stored and protected.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://astrellamarketing.com/privacy" }],
   }),
 });
 

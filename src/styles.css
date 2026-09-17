@@ -217,6 +217,40 @@
   will-change: transform;
 }
 
+/* Per-image object-position that can differ between the narrow (portrait) crop
+   used below sm and the wider crop used at sm and up. */
+.obj-focus {
+  object-position: var(--obj-focus, center);
+}
+
+@media (width >= 640px) {
+  .obj-focus {
+    object-position: var(--obj-focus-sm, center);
+  }
+}
+
+/* Industry card hover — desktop-only, gated behind a real fine-pointer/hover
+   media query rather than :hover alone, so touch never triggers it. */
+@media (hover: hover) and (pointer: fine) {
+  .who-card:hover {
+    border-color: var(--line-strong);
+  }
+
+  .who-card:hover .who-card-image {
+    transform: scale(1.025);
+    filter: brightness(1.06);
+  }
+
+  .who-card:hover .who-card-title {
+    transform: translateY(-3px);
+  }
+
+  .who-card:hover .who-card-arrow {
+    opacity: 1;
+    transform: translate(1px, -1px);
+  }
+}
+
 @keyframes drift {
   0%,
   100% {

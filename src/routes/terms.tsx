@@ -15,6 +15,7 @@ export const Route = createFileRoute("/terms")({
         content: "Astrella Marketing terms and conditions for website use and project engagement.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://astrellamarketing.com/terms" }],
   }),
 });
 

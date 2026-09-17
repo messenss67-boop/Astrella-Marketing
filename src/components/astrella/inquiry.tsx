@@ -38,8 +38,8 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const BUILD = ["Website", "Brand", "Digital campaign", "Something else"];
-const STAGE = ["Just an idea", "Planning", "Ready to build", "Already launched"];
+const NEED = ["Website", "Digital presence", "Social", "Creative direction", "Something else"];
+const BUDGET = ["R10k–R25k", "R25k–R50k", "R50k–R100k", "R100k+"];
 
 function Option({
   label,
@@ -73,8 +73,8 @@ function Option({
 function InquiryModal() {
   const { isOpen, close } = useInquiry();
   const [step, setStep] = useState(0);
-  const [build, setBuild] = useState<string | null>(null);
-  const [stage, setStage] = useState<string | null>(null);
+  const [need, setNeed] = useState<string | null>(null);
+  const [budget, setBudget] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -94,8 +94,8 @@ function InquiryModal() {
     if (isOpen) return undefined;
     const t = setTimeout(() => {
       setStep(0);
-      setBuild(null);
-      setStage(null);
+      setNeed(null);
+      setBudget(null);
       setForm({ name: "", email: "", company: "", message: "" });
       setError(null);
       setIsSubmitting(false);
@@ -118,9 +118,9 @@ function InquiryModal() {
   };
 
   const steps = [
-    "What are you looking to build?",
-    "What stage are you at?",
-    "Tell us a little about it.",
+    "What do you need?",
+    "What's the budget?",
+    "Tell us about the project.",
     "Let's make something remarkable.",
   ];
 
@@ -161,13 +161,13 @@ function InquiryModal() {
 
           {step === 0 && (
             <div className="mt-10 max-w-2xl">
-              {BUILD.map((b) => (
+              {NEED.map((n) => (
                 <Option
-                  key={b}
-                  label={b}
-                  selected={build === b}
+                  key={n}
+                  label={n}
+                  selected={need === n}
                   onSelect={() => {
-                    setBuild(b);
+                    setNeed(n);
                     setStep(1);
                   }}
                 />
@@ -177,13 +177,13 @@ function InquiryModal() {
 
           {step === 1 && (
             <div className="mt-10 max-w-2xl">
-              {STAGE.map((s) => (
+              {BUDGET.map((b) => (
                 <Option
-                  key={s}
-                  label={s}
-                  selected={stage === s}
+                  key={b}
+                  label={b}
+                  selected={budget === b}
                   onSelect={() => {
-                    setStage(s);
+                    setBudget(b);
                     setStep(2);
                   }}
                 />
@@ -202,8 +202,8 @@ function InquiryModal() {
               {(
                 [
                   ["name", "Name", true],
-                  ["email", "Email", true],
                   ["company", "Company", false],
+                  ["email", "Email", true],
                 ] as const
               ).map(([key, labelText, required]) => (
                 <label key={key} className="block">
@@ -221,7 +221,7 @@ function InquiryModal() {
                 </label>
               ))}
               <label className="block sm:col-span-2">
-                <span className="label-xs">What are you building?</span>
+                <span className="label-xs">Tell us about the project</span>
                 <textarea
                   rows={3}
                   value={form.message}
@@ -236,7 +236,7 @@ function InquiryModal() {
               )}
               <div className="sm:col-span-2 flex items-center gap-4">
                 <MagneticButton type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : "Send enquiry"} <ArrowRight />
+                  {isSubmitting ? "Sending..." : "Start a conversation"} <ArrowRight />
                 </MagneticButton>
                 {isSubmitting && (
                   <span className="text-xs uppercase tracking-[0.2em] text-faint">
@@ -255,7 +255,7 @@ function InquiryModal() {
                 and reply within two working days.
               </p>
               <p className="mt-4 text-sm text-faint">
-                {build} · {stage}
+                {need} · {budget}
               </p>
               <button
                 type="button"

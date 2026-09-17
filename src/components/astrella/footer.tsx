@@ -19,12 +19,18 @@ const COLUMNS = [
   },
 ];
 
+/** Real profile URLs to be added — kept as unlinked labels until then. */
+const SOCIALS: { label: string; href: string | null }[] = [
+  { label: "Instagram", href: null },
+  { label: "LinkedIn", href: null },
+];
+
 export function Footer() {
   return (
     <footer className="border-t border-line pt-16 sm:pt-20">
       <div className="shell">
         <div className="grid gap-10 sm:gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-4">
             <p className="display text-[clamp(3rem,11vw,9rem)] leading-[0.86] text-ivory">
               Astrella
             </p>
@@ -69,7 +75,31 @@ export function Footer() {
                   hello@astrellamarketing.com
                 </a>
               </li>
-              <li className="text-faint">Remote-first. Worldwide.</li>
+              <li className="text-faint">Cape Town · Worldwide</li>
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2">
+            <p className="label-xs">Follow</p>
+            <ul className="mt-6 space-y-3 text-sm">
+              {SOCIALS.map((s) =>
+                s.href ? (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="link-underline text-ivory-dim transition-colors hover:text-gold"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={s.label} className="text-faint">
+                    {s.label}
+                  </li>
+                ),
+              )}
             </ul>
           </div>
         </div>

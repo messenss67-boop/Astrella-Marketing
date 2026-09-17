@@ -1,10 +1,25 @@
-import work03 from "@/assets/work-03.jpg";
-import editorialCommerce1 from "@/assets/editorial-commerce-1.png";
-import editorialCommerce2 from "@/assets/editorial-commerce-2.png";
-import editorialCommerce3 from "@/assets/editorial-commerce-3.png";
-import socialMediaMarketing1 from "@/assets/social-media-marketing-1.png";
-import socialMediaMarketing2 from "@/assets/social-media-marketing-2.png";
-import socialMediaMarketing3 from "@/assets/social-media-marketing-3.png";
+import work01 from "@/assets/work-01.jpg";
+import work02 from "@/assets/work-02.jpg";
+import editorialCommerce1 from "@/assets/editorial-commerce-1.webp";
+import editorialCommerce2 from "@/assets/editorial-commerce-2.webp";
+import editorialCommerce3 from "@/assets/editorial-commerce-3.webp";
+import socialMediaMarketing1 from "@/assets/social-media-marketing-1.webp";
+import socialMediaMarketing2 from "@/assets/social-media-marketing-2.webp";
+import socialMediaMarketing3 from "@/assets/social-media-marketing-3.webp";
+
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  /** What this frame shows — e.g. "Website — desktop", "Social — Instagram profile". */
+  label: string;
+  /**
+   * CSS object-position for the narrow/portrait crop used below the sm breakpoint
+   * (the homepage carousel is much tighter there) — defaults to "center".
+   */
+  focus?: string;
+  /** CSS object-position for the wider crop used at sm and up — defaults to "center". */
+  focusWide?: string;
+}
 
 export interface Project {
   id: string;
@@ -13,10 +28,12 @@ export interface Project {
   client: string;
   industry: string;
   service: string;
+  /** Project type — the deliverable format, distinct from the service line. */
+  type: string;
   year: string;
   summary: string;
-  image: string;
-  images?: string[];
+  cover: ProjectImage;
+  gallery: ProjectImage[];
   scope: string[];
   sections: { heading: string; body: string }[];
   placeholder: true;
@@ -24,99 +41,148 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    id: "editorial-commerce",
+    id: "aurea",
     index: "01",
-    title: "Editorial commerce",
+    title: "Aurea",
     client: "Independent concept",
-    industry: "Lifestyle retail",
-    service: "Website design",
+    industry: "Lifestyle & wellness",
+    service: "Website design & social system",
+    type: "Concept — website & content system",
     year: "Concept",
     summary:
-      "A storefront designed like a quiet editorial feature: slower pacing, clearer product stories and a path to purchase that never feels pushy.",
-    image: editorialCommerce1,
-    images: [editorialCommerce1, editorialCommerce2, editorialCommerce3],
-    scope: ["Art direction", "UX/UI", "Development", "Performance"],
+      "A lifestyle brand built around slower living: a considered website paired with a social presence that carries the same calm, editorial tone.",
+    cover: {
+      src: editorialCommerce1,
+      alt: "Aurea website homepage displayed on a laptop",
+      label: "Website — desktop",
+    },
+    gallery: [
+      {
+        src: editorialCommerce1,
+        alt: "Aurea website homepage displayed on a laptop",
+        label: "Website — desktop",
+      },
+      {
+        src: work01,
+        alt: "Close-up of the Aurea website's editorial imagery and layout",
+        label: "Website — editorial detail",
+      },
+      {
+        src: socialMediaMarketing3,
+        alt: "Aurea Instagram profile grid displayed on a phone",
+        label: "Social — Instagram profile",
+      },
+    ],
+    scope: ["Art direction", "UX/UI", "Development", "Content direction"],
     sections: [
       {
         heading: "The challenge",
-        body: "The brand had decent product range but no visual system strong enough to hold attention once people landed on the page. The site needed to feel more considered and less like a template.",
-      },
-      {
-        heading: "The objective",
-        body: "Create a digital storefront that felt premium and editorial while still making it easy to discover, compare and buy the products on offer.",
+        body: "The idea needed a digital home that felt as considered as the lifestyle it was selling, and a social presence to match, without tipping into the soft, generic visual language most wellness brands default to.",
       },
       {
         heading: "The approach",
-        body: "We built the system around storytelling and pacing: large imagery, tighter typography, calmer navigation and a visual rhythm that made the collection feel curated rather than crowded.",
+        body: "We built a quiet, editorial system: warm neutrals, restrained typography and imagery that does the talking, carried consistently from the website through to the Instagram grid.",
       },
       {
-        heading: "The result",
-        body: "The concept prioritises clarity and atmosphere over noise, making the brand feel more premium without losing usability or conversion intent.",
+        heading: "The outcome",
+        body: "The concept reads as a single considered brand across every surface, with a tone distinct enough to stand apart in a crowded lifestyle category.",
       },
     ],
     placeholder: true,
   },
   {
-    id: "social-system",
+    id: "solis",
     index: "02",
-    title: "Social Media Marketing",
+    title: "Solis",
     client: "Independent concept",
-    industry: "Hospitality",
-    service: "Brand & content direction",
+    industry: "Property & hospitality",
+    service: "Website design",
+    type: "Concept — website & digital presence",
     year: "Concept",
     summary:
-      "A content system built around structure, mood and repeatable execution so the brand could appear clearer and more distinct across multiple channels.",
-    image: socialMediaMarketing1,
-    images: [socialMediaMarketing1, socialMediaMarketing2, socialMediaMarketing3],
-    scope: ["Strategy", "Content direction", "Creative system", "Campaign planning"],
+      "A spaces-and-hospitality brand positioned around one idea — people, spaces, possibility — carried through a calm, image-led website.",
+    cover: {
+      src: editorialCommerce2,
+      alt: "Solis website homepage displayed on a laptop",
+      label: "Website — desktop",
+      focus: "70% 42%",
+    },
+    gallery: [
+      {
+        src: editorialCommerce2,
+        alt: "Solis website homepage displayed on a laptop",
+        label: "Website — desktop",
+        focus: "70% 42%",
+      },
+      {
+        src: socialMediaMarketing2,
+        alt: "Solis Instagram profile grid displayed on a phone",
+        label: "Social — Instagram profile",
+      },
+    ],
+    scope: ["UX/UI", "Art direction", "Development", "Performance"],
     sections: [
       {
         heading: "The challenge",
-        body: "The brand had a strong offer but the social output felt fragmented. Different formats, different tones and no consistent visual story meant the audience never saw a clear identity.",
-      },
-      {
-        heading: "The objective",
-        body: "Build a content system that could scale without sounding recycled and give the brand a more recognisable visual and editorial language.",
+        body: "The brand needed a website that could hold large, atmospheric photography without slowing down or losing structure underneath it.",
       },
       {
         heading: "The approach",
-        body: "We reduced the noise and defined a repeatable structure: a few strong formats, a disciplined visual language and a content cadence designed for consistency rather than constant churn.",
+        body: "We built a grid-driven layout that lets the photography lead, with a restrained navigation and type system that stays out of the way.",
       },
       {
-        heading: "The result",
-        body: "The outcome is a more coherent brand presence across digital touchpoints without sacrificing personality or campaign flexibility.",
+        heading: "The outcome",
+        body: "The result feels closer to an editorial feature than a typical property site: considered pacing, clear structure, still fast.",
       },
     ],
     placeholder: true,
   },
   {
-    id: "studio-identity",
+    id: "aura",
     index: "03",
-    title: "Studio identity",
+    title: "Aura",
     client: "Independent concept",
-    industry: "Architecture",
-    service: "Brand identity & web",
+    industry: "Wellness & lifestyle retail",
+    service: "Brand identity & content direction",
+    type: "Concept — brand identity & social system",
     year: "Concept",
     summary:
-      "A quiet, confident identity for a practice that wanted its work to do the talking, not its marketing collateral.",
-    image: work03,
-    scope: ["Brand direction", "Art direction", "UX/UI", "Development"],
+      "A wellness brand identity built for shelf and screen alike: packaging, print collateral and a social system that all read as one considered idea.",
+    cover: {
+      src: editorialCommerce3,
+      alt: "Aura brand identity applied to packaging, cards and print collateral",
+      label: "Brand identity — packaging",
+    },
+    gallery: [
+      {
+        src: editorialCommerce3,
+        alt: "Aura brand identity applied to packaging, cards and print collateral",
+        label: "Brand identity — packaging",
+      },
+      {
+        src: socialMediaMarketing1,
+        alt: "Aura Instagram profile grid displayed on a phone",
+        label: "Social — Instagram profile",
+      },
+      {
+        src: work02,
+        alt: "Moody black-and-white editorial content grid displayed on a phone",
+        label: "Social — content grid",
+      },
+    ],
+    scope: ["Brand direction", "Packaging", "Content direction", "Campaign design"],
     sections: [
       {
         heading: "The challenge",
-        body: "The practice had strong projects but an online presence that did not reflect the quality of the work. The site felt generic and failed to hold the architectural discipline of the studio.",
-      },
-      {
-        heading: "The objective",
-        body: "Translate the studio&rsquo;s design language into a digital environment that felt calm, precise and materially rich, without resorting to cliché.",
+        body: "The brand needed an identity confident enough to hold its own on a shelf, and flexible enough to carry across packaging, print and social.",
       },
       {
         heading: "The approach",
-        body: "The identity system leaned into restraint: typography, composition, material cues and a sparse but deliberate palette that gave each project room to breathe.",
+        body: "We built a dark, tactile identity system: quiet typography, a restrained mark and materials chosen to feel premium in the hand and on screen.",
       },
       {
-        heading: "The result",
-        body: "The concept communicates authority and clarity, making the studio feel more established and more deliberate in how it presents its work.",
+        heading: "The outcome",
+        body: "The system holds together across every touchpoint, giving the brand a distinct, recognisable presence without relying on a loud palette.",
       },
     ],
     placeholder: true,

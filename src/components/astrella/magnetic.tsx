@@ -1,11 +1,13 @@
 import { useRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 
-type Variant = "primary" | "ghost";
+type Variant = "primary" | "ghost" | "invert";
 
 interface MagneticButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: Variant;
   strength?: number;
+  /** Stay full-width at every breakpoint instead of shrinking to content at sm+. */
+  fullWidth?: boolean;
 }
 
 /** Subtle magnetic pull on fine pointers; plain button everywhere else. */
@@ -13,6 +15,7 @@ export function MagneticButton({
   children,
   variant = "primary",
   strength = 12,
+  fullWidth = false,
   className = "",
   ...rest
 }: MagneticButtonProps) {
@@ -36,9 +39,11 @@ export function MagneticButton({
   const styles =
     variant === "primary"
       ? "bg-ivory text-ink hover:bg-gold"
-      : "border border-line-strong text-ivory hover:border-lavender hover:text-lavender";
+      : variant === "invert"
+        ? "bg-ivory text-ink hover:bg-lavender"
+        : "border border-line-strong text-ivory hover:border-lavender hover:text-lavender";
 
-  const mobileAlignment = "w-full justify-center sm:w-auto";
+  const mobileAlignment = fullWidth ? "w-full justify-center" : "w-full justify-center sm:w-auto";
 
   return (
     <button

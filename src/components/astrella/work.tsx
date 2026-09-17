@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
-import { PROJECTS, type Project } from "@/data/work";
+import { useEffect, useState, type CSSProperties } from "react";
+import { PROJECTS, type Project, type ProjectImage } from "@/data/work";
 import { Reveal, RevealLines, SectionLabel } from "./reveal";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
 import { ArrowRight, MagneticButton } from "./magnetic";
+
+/** CSS custom properties consumed by the `.obj-focus` utility in styles.css. */
+function focusStyle(img: ProjectImage): CSSProperties {
+  return {
+    "--obj-focus": img.focus ?? "center",
+    "--obj-focus-sm": img.focusWide ?? "center",
+  } as CSSProperties;
+}
 
 export function Work() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
@@ -38,7 +46,7 @@ export function Work() {
   );
 }
 
-function ProjectImages({ images, title }: { images: string[]; title: string }) {
+function ProjectImages({ images }: { images: ProjectImage[] }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -52,16 +60,17 @@ function ProjectImages({ images, title }: { images: string[]; title: string }) {
 
   return (
     <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[7/5]">
-      {images.map((src, i) => (
+      {images.map((img, i) => (
         <img
-          key={src}
-          src={src}
-          alt={`${title} concept visual ${i + 1} of ${images.length}`}
+          key={img.src}
+          src={img.src}
+          alt={img.alt}
           width={1408}
           height={1008}
           loading="lazy"
           decoding="async"
-          className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1200ms] ease-out will-change-transform group-hover:scale-[1.035] ${
+          style={focusStyle(img)}
+          className={`obj-focus absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1200ms] ease-out will-change-transform group-hover:scale-[1.03] ${
             i === active ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -124,7 +133,7 @@ function ProjectRow({
         >
           <div className={`grid items-end gap-6 md:gap-8 lg:grid-cols-12 ${flip ? "" : ""}`}>
             <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-              <ProjectImages images={project.images ?? [project.image]} title={project.title} />
+              <ProjectImages images={project.gallery} />
             </div>
 
             <div
@@ -146,7 +155,7 @@ function ProjectRow({
                 {[
                   ["Industry", project.industry],
                   ["Service", project.service],
-                  ["Year", project.year],
+                  ["Type", project.type],
                 ].map(([k, v]) => (
                   <div key={k}>
                     <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
@@ -208,11 +217,12 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
           {project.summary}
         </p>
 
-        <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-line py-6 sm:grid-cols-4">
+        <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-line py-6 sm:grid-cols-5">
           {[
             ["Client", project.client],
             ["Industry", project.industry],
             ["Service", project.service],
+            ["Type", project.type],
             ["Year", project.year],
           ].map(([k, v]) => (
             <div key={k}>
@@ -223,14 +233,39 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
         </dl>
 
         <img
-          src={project.image}
-          alt={`${project.title} concept visual`}
+          src={project.cover.src}
+          alt={project.cover.alt}
           width={1408}
           height={1008}
           loading="lazy"
           decoding="async"
+          style={{ objectPosition: project.cover.focus ?? "center" }}
           className="mt-12 aspect-[16/10] w-full object-cover"
         />
+
+        {project.gallery.filter((img) => img.src !== project.cover.src).length > 0 && (
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {project.gallery
+              .filter((img) => img.src !== project.cover.src)
+              .map((img) => (
+                <figure key={img.src}>
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    width={1024}
+                    height={731}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ objectPosition: img.focus ?? "center" }}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                  <figcaption className="mt-3 text-[0.7rem] uppercase tracking-[0.2em] text-faint">
+                    {img.label}
+                  </figcaption>
+                </figure>
+              ))}
+          </div>
+        )}
 
         <div className="mt-16 grid gap-12 lg:grid-cols-12">
           <div className="space-y-12 lg:col-span-8">

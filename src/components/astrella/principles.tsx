@@ -71,6 +71,10 @@ export function Principles() {
                   <h3 className="font-serif text-[clamp(1.75rem,3.2vw,2.75rem)] leading-tight tracking-tight text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
                     {p.title}
                   </h3>
+                  <span
+                    aria-hidden="true"
+                    className="mt-4 block h-px w-10 origin-left scale-x-100 bg-line-strong transition-all duration-700 ease-out group-hover:w-20 group-hover:bg-lavender"
+                  />
                 </div>
                 <div className="flex items-start gap-6 sm:col-span-4">
                   <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">{p.body}</p>

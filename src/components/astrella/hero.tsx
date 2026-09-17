@@ -92,6 +92,21 @@ export function Hero() {
           />
         </h1>
 
+        <Reveal delay={80} className="mt-7 sm:mt-9">
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.68rem] uppercase tracking-[0.24em] text-ivory-dim/80">
+            {["Web design", "Digital presence", "Social", "Creative direction"].map((s, i) => (
+              <span key={s} className="flex items-center gap-3">
+                {i > 0 && (
+                  <span className="text-lavender" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                {s}
+              </span>
+            ))}
+          </p>
+        </Reveal>
+
         <div className="mt-10 flex flex-col gap-8 border-t border-line pt-8 md:mt-12 md:flex-row md:items-end md:justify-between">
           <Reveal delay={120} className="max-w-xl">
             <p className="text-base leading-relaxed text-muted-foreground">
