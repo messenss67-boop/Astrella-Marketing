@@ -4,7 +4,7 @@ import property from "@/assets/who-we-work-with/property.webp";
 import tradeServices from "@/assets/who-we-work-with/trade-services.webp";
 import professionalServices from "@/assets/who-we-work-with/professional-services.webp";
 import ecommerce from "@/assets/who-we-work-with/ecommerce.webp";
-import { Reveal, RevealLines, SectionLabel } from "./reveal";
+import { Reveal, RevealLines } from "./reveal";
 import { ArrowRight, MagneticButton } from "./magnetic";
 import { useInquiry } from "./inquiry";
 
@@ -84,8 +84,8 @@ function IndustryCard({ industry, index }: { industry: Industry; index: number }
         type="button"
         onClick={open}
         data-cursor="cta"
-        aria-label={`Start a project — ${industry.title}`}
-        className="who-card group relative isolate flex aspect-auto min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-[6px] border border-line text-left transition-colors duration-500 md:aspect-[2.35/1] md:min-h-[188px]"
+        aria-label={`Start a project for ${industry.title}`}
+        className="who-card group relative isolate flex aspect-auto min-h-[220px] w-full flex-col justify-end overflow-hidden rounded-[6px] border border-line text-left transition-[border-color,opacity] duration-300 active:opacity-90 md:aspect-[2.35/1] md:min-h-[188px]"
       >
         <img
           src={industry.image}
@@ -110,7 +110,7 @@ function IndustryCard({ industry, index }: { industry: Industry; index: number }
 
         <span
           aria-hidden="true"
-          className="who-card-arrow absolute right-5 top-5 text-lg text-ivory opacity-0 transition-[opacity,transform] duration-500"
+          className="who-card-arrow absolute right-5 top-5 text-lg text-ivory opacity-0 transition-[opacity,transform] duration-300"
         >
           ↗
         </span>
@@ -129,7 +129,7 @@ function IndustryCard({ industry, index }: { industry: Industry; index: number }
             </span>
             <span className="h-px w-6 bg-line-strong" />
           </span>
-          <h3 className="who-card-title font-serif text-[clamp(1.75rem,8vw,2.375rem)] leading-[1.05] tracking-tight text-ivory transition-transform duration-500">
+          <h3 className="who-card-title font-serif text-[clamp(1.75rem,8vw,2.375rem)] leading-[1.05] tracking-tight text-ivory transition-transform duration-300">
             {industry.title}
           </h3>
           <p className="mt-2 text-[0.82rem] leading-snug text-ivory-dim/85">
@@ -146,9 +146,7 @@ export function WhoWeWorkWith() {
 
   return (
     <section className="shell py-24 sm:py-32 lg:py-36" aria-labelledby="fit-heading">
-      <SectionLabel index="05" title="Who we work with" />
-
-      <div className="mt-12 grid grid-cols-1 gap-14 lg:grid-cols-[36%_1fr] lg:gap-20">
+      <div className="grid grid-cols-1 gap-14 lg:grid-cols-[36%_1fr] lg:gap-20">
         <div>
           <h2
             id="fit-heading"
@@ -163,14 +161,14 @@ export function WhoWeWorkWith() {
               that already have a point of view.
             </p>
             <p className="text-base leading-relaxed text-muted-foreground">
-              In practice, that tends to be businesses in these spaces — where design, strategy and
+              In practice, that tends to be businesses in these spaces, where design, strategy and
               execution can create real, measurable impact.
             </p>
           </Reveal>
 
           <Reveal delay={200} className="mt-9">
             <MagneticButton variant="ghost" onClick={open}>
-              Work with us <ArrowRight />
+              Start a project <ArrowRight />
             </MagneticButton>
           </Reveal>
 

@@ -5,7 +5,7 @@
 
 /*
  * ASTRELLA DESIGN SYSTEM
- * Palette: charcoal ink, warm ivory, muted lavender accent.
+ * Palette: charcoal ink, warm ivory, single lavender accent (locked — no secondary accent).
  * Type: Instrument Serif (editorial) + Inter Tight (refined sans).
  */
 
@@ -21,7 +21,6 @@
   --color-lavender: var(--lavender);
   --color-lavender-deep: var(--lavender-deep);
   --color-lavender-dark: var(--lavender-dark);
-  --color-gold: var(--gold);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
@@ -40,7 +39,6 @@
   --lavender: oklch(0.78 0.1 300);
   --lavender-deep: oklch(0.655 0.079 300);
   --lavender-dark: oklch(0.505 0.078 300);
-  --gold: #e8b45a;
 
   --background: var(--ink);
   --foreground: var(--ivory);
@@ -146,19 +144,16 @@
 
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
-  filter: blur(6px);
+  transform: translate3d(0, 12px, 0);
   transition:
-    opacity 0.85s var(--ease-out-expo),
-    transform 0.85s var(--ease-out-expo),
-    filter 0.85s var(--ease-out-expo);
+    opacity 0.45s var(--ease-out-expo),
+    transform 0.45s var(--ease-out-expo);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 .reveal[data-visible="true"] {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  filter: blur(0);
 }
 
 .line-mask {
@@ -169,7 +164,7 @@
 .line-mask > span {
   display: block;
   transform: translate3d(0, 105%, 0);
-  transition: transform 1s var(--ease-out-expo);
+  transition: transform 0.75s var(--ease-out-expo);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
@@ -192,7 +187,7 @@
     background: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.5s var(--ease-out-expo);
+    transition: transform 0.2s var(--ease-out-expo);
   }
 
   &:hover::after {
@@ -215,6 +210,12 @@
   width: max-content;
   animation: marquee-x var(--marquee-duration, 42s) linear infinite;
   will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee-host:hover .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 /* Per-image object-position that can differ between the narrow (portrait) crop
@@ -251,20 +252,6 @@
   }
 }
 
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate3d(0, -14px, 0) rotate(6deg);
-  }
-}
-
-.drift {
-  animation: drift 14s ease-in-out infinite;
-}
-
 @keyframes spin-slow {
   to {
     transform: rotate(360deg);
@@ -273,6 +260,40 @@
 
 .spin-slow {
   animation: spin-slow 90s linear infinite;
+}
+
+/* ---------- hero (one deliberately expressive moment) ---------- */
+
+@keyframes hero-mask-in {
+  from {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+  }
+  to {
+    clip-path: circle(100% at 50% 50%);
+    opacity: 1;
+  }
+}
+
+/* ---------- overlays (menu, modals) ---------- */
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes overlay-item-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Star } from "./star";
 import { ArrowRight, MagneticButton } from "./magnetic";
+import { useExitTransition } from "./reveal";
 
 interface InquiryContextValue {
   open: () => void;
@@ -39,7 +40,7 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
 }
 
 const NEED = ["Website", "Digital presence", "Social", "Creative direction", "Something else"];
-const BUDGET = ["R10k–R25k", "R25k–R50k", "R50k–R100k", "R100k+"];
+const BUDGET = ["R10k-R25k", "R25k-R50k", "R50k-R100k", "R100k+"];
 
 function Option({
   label,
@@ -55,13 +56,13 @@ function Option({
       type="button"
       onClick={onSelect}
       data-cursor="cta"
-      className={`group flex w-full items-center justify-between border-b border-line py-5 text-left transition-colors duration-400 ${
+      className={`group flex w-full items-center justify-between border-b border-line py-5 text-left transition-[color,opacity] duration-300 active:opacity-70 ${
         selected ? "text-lavender" : "text-ivory hover:text-lavender"
       }`}
     >
       <span className="font-serif text-3xl tracking-tight sm:text-4xl">{label}</span>
       <span
-        className="opacity-0 transition-opacity duration-400 group-hover:opacity-100 data-[on=true]:opacity-100"
+        className="opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[on=true]:opacity-100"
         data-on={selected}
       >
         <Star className="h-3 w-3" />
@@ -90,6 +91,8 @@ function InquiryModal() {
     };
   }, [isOpen, close]);
 
+  const { rendered, closing } = useExitTransition(isOpen, 260);
+
   useEffect(() => {
     if (isOpen) return undefined;
     const t = setTimeout(() => {
@@ -99,11 +102,11 @@ function InquiryModal() {
       setForm({ name: "", email: "", company: "", message: "" });
       setError(null);
       setIsSubmitting(false);
-    }, 400);
+    }, 260);
     return () => clearTimeout(t);
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!rendered) return null;
 
   const submit = async () => {
     if (!form.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -130,16 +133,20 @@ function InquiryModal() {
       aria-modal="true"
       aria-label="Start a project"
       className="fixed inset-0 z-[80] overflow-y-auto bg-ink"
-      style={{ animation: "fade-in .4s var(--ease-out-expo) both" }}
+      style={{
+        animation: closing
+          ? "overlay-out 260ms var(--ease-soft) both"
+          : "overlay-in 380ms var(--ease-out-expo) both",
+      }}
     >
       <div className="shell flex min-h-dvh flex-col py-8">
         <div className="flex items-center justify-between">
-          <span className="label-xs">Step {Math.min(step + 1, 4)} — 04</span>
+          <span className="label-xs">Step {Math.min(step + 1, 4)} of 4</span>
           <button
             type="button"
             onClick={close}
             data-cursor="cta"
-            className="label-xs text-ivory transition-colors hover:text-lavender"
+            className="label-xs text-ivory transition-[color,opacity] duration-150 hover:text-lavender active:opacity-70"
           >
             Close ✕
           </button>
@@ -147,15 +154,15 @@ function InquiryModal() {
 
         <div className="mt-2 h-px w-full bg-line">
           <div
-            className="h-px bg-lavender transition-[width] duration-700 ease-out"
+            className="h-px bg-lavender transition-[width] duration-300 ease-out"
             style={{ width: `${((Math.min(step, 3) + 1) / 4) * 100}%` }}
           />
         </div>
 
         <div
           key={step}
-          className="reveal flex flex-1 flex-col justify-center py-12"
-          data-visible="true"
+          className="flex flex-1 flex-col justify-center py-12"
+          style={{ animation: "overlay-item-in 380ms var(--ease-out-expo) both" }}
         >
           <h2 className="display max-w-3xl text-[clamp(2.25rem,6vw,4.5rem)]">{steps[step]}</h2>
 
@@ -261,7 +268,7 @@ function InquiryModal() {
                 type="button"
                 onClick={close}
                 data-cursor="cta"
-                className="link-underline mt-8 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:text-gold"
+                className="link-underline mt-8 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-[color,opacity] active:opacity-70 hover:text-lavender"
               >
                 Back to the site
               </button>
@@ -272,7 +279,7 @@ function InquiryModal() {
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="link-underline mt-10 self-start text-[0.7rem] uppercase tracking-[0.2em] text-faint transition-colors hover:text-gold"
+              className="link-underline mt-10 self-start text-[0.7rem] uppercase tracking-[0.2em] text-faint transition-[color,opacity] active:opacity-70 hover:text-lavender"
             >
               ← Back
             </button>

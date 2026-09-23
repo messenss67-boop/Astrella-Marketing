@@ -15,7 +15,7 @@ import { Closing } from "@/components/astrella/closing";
 import { Footer } from "@/components/astrella/footer";
 
 const SITE_URL = "https://astrellamarketing.com";
-const TITLE = "Astrella Marketing — Boutique creative studio for sharper brands";
+const TITLE = "Astrella Marketing - Boutique creative studio for sharper brands";
 const DESCRIPTION =
   "Astrella is a boutique creative studio building considered websites, identity systems and digital experiences for brands that want a clearer point of view.";
 
@@ -78,7 +78,6 @@ function Home() {
           <Principles />
           <Work />
           <Services />
-          <Marquee duration={64} />
           <Process />
           <WhoWeWorkWith />
           <About />

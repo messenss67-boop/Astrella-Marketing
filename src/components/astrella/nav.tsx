@@ -3,6 +3,7 @@ import { Logo } from "./logo";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
 import { ArrowRight } from "./magnetic";
+import { useExitTransition } from "./reveal";
 
 const LINKS = [
   { label: "Work", href: "#work" },
@@ -33,14 +34,14 @@ export function Nav() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-out ${
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out ${
           scrolled
             ? "border-b border-line bg-ink/70 py-3 backdrop-blur-xl"
             : "border-b border-transparent py-6"
         }`}
       >
         <nav className="shell flex items-center justify-between" aria-label="Primary">
-          <a href="#top" data-cursor="cta" aria-label="Astrella Marketing — home">
+          <a href="#top" data-cursor="cta" aria-label="Astrella Marketing home">
             <Logo compact={scrolled} />
           </a>
 
@@ -49,7 +50,7 @@ export function Nav() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="link-underline text-[0.7rem] uppercase tracking-[0.22em] text-ivory-dim transition-colors hover:text-gold"
+                  className="link-underline text-[0.7rem] uppercase tracking-[0.22em] text-ivory-dim transition-colors hover:text-lavender"
                 >
                   {l.label}
                 </a>
@@ -62,7 +63,7 @@ export function Nav() {
               type="button"
               onClick={open}
               data-cursor="cta"
-              className="group hidden items-center gap-2 border border-line-strong px-5 py-3 text-[0.65rem] uppercase tracking-[0.22em] text-ivory transition-colors duration-500 hover:border-gold hover:text-gold sm:inline-flex"
+              className="group hidden items-center gap-2 border border-line-strong px-5 py-3 text-[0.65rem] uppercase tracking-[0.22em] text-ivory transition-[color,border-color,opacity] duration-300 hover:border-lavender hover:text-lavender active:opacity-70 sm:inline-flex"
             >
               Start a project <ArrowRight />
             </button>
@@ -72,7 +73,7 @@ export function Nav() {
               onClick={() => setMenu(true)}
               aria-label="Open menu"
               aria-expanded={menu}
-              className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-ink/70 text-ivory transition-colors hover:border-lavender hover:text-lavender lg:hidden"
+              className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-ink/70 text-ivory transition-[color,border-color,opacity] duration-300 hover:border-lavender hover:text-lavender active:opacity-70 lg:hidden"
             >
               <span className="flex flex-col items-center gap-[5px]">
                 <span className="h-px w-5 bg-current" />
@@ -83,24 +84,38 @@ export function Nav() {
         </nav>
       </header>
 
-      {menu && (
-        <MobileMenu
-          onClose={() => setMenu(false)}
-          onStart={() => {
-            setMenu(false);
-            open();
-          }}
-        />
-      )}
+      <MobileMenu
+        open={menu}
+        onClose={() => setMenu(false)}
+        onStart={() => {
+          setMenu(false);
+          open();
+        }}
+      />
     </>
   );
 }
 
-function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => void }) {
+function MobileMenu({
+  open,
+  onClose,
+  onStart,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onStart: () => void;
+}) {
+  const { rendered, closing } = useExitTransition(open, 260);
+  if (!rendered) return null;
+
   return (
     <div
       className="fixed inset-0 z-[60] flex flex-col bg-ink px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))]"
-      style={{ animation: "fade-in .45s var(--ease-out-expo) both" }}
+      style={{
+        animation: closing
+          ? "overlay-out 220ms var(--ease-soft) both"
+          : "overlay-in 320ms var(--ease-out-expo) both",
+      }}
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
@@ -111,7 +126,7 @@ function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => 
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="min-h-11 min-w-11 rounded-full border border-line-strong px-3 py-2 text-[0.7rem] uppercase tracking-[0.22em] text-ivory"
+          className="min-h-11 min-w-11 rounded-full border border-line-strong px-3 py-2 text-[0.7rem] uppercase tracking-[0.22em] text-ivory transition-opacity duration-150 active:opacity-70"
         >
           Close ✕
         </button>
@@ -125,7 +140,13 @@ function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => 
                 href={l.href}
                 onClick={onClose}
                 className="flex items-baseline gap-3 py-5"
-                style={{ animation: `fade-in .6s var(--ease-out-expo) ${120 + i * 80}ms both` }}
+                style={
+                  closing
+                    ? undefined
+                    : {
+                        animation: `overlay-item-in 400ms var(--ease-out-expo) ${100 + i * 60}ms both`,
+                      }
+                }
               >
                 <span className="label-xs">0{i + 1}</span>
                 <span className="font-serif text-[2.5rem] leading-none tracking-tight text-ivory">
@@ -139,7 +160,7 @@ function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => 
         <button
           type="button"
           onClick={onStart}
-          className="mt-8 flex min-h-12 items-center justify-between bg-ivory px-5 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-ink"
+          className="mt-8 flex min-h-12 items-center justify-between bg-ivory px-5 py-4 text-[0.7rem] uppercase tracking-[0.22em] text-ink transition-opacity duration-150 active:opacity-80"
         >
           Start a project <span aria-hidden="true">→</span>
         </button>
@@ -153,7 +174,7 @@ function MobileMenu({ onClose, onStart }: { onClose: () => void; onStart: () => 
           </p>
           <a
             href="mailto:hello@astrellamarketing.com"
-            className="link-underline mt-4 inline-block text-sm text-ivory transition-colors hover:text-gold"
+            className="link-underline mt-4 inline-block text-sm text-ivory transition-colors hover:text-lavender"
           >
             hello@astrellamarketing.com
           </a>

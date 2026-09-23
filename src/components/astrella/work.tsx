@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { PROJECTS, type Project, type ProjectImage } from "@/data/work";
-import { Reveal, RevealLines, SectionLabel } from "./reveal";
+import { Reveal, RevealLines, SectionLabel, useExitTransition } from "./reveal";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
 import { ArrowRight, MagneticButton } from "./magnetic";
@@ -15,11 +15,16 @@ function focusStyle(img: ProjectImage): CSSProperties {
 
 export function Work() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
+  const [displayProject, setDisplayProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    if (openProject) setDisplayProject(openProject);
+  }, [openProject]);
 
   return (
     <section id="work" className="scroll-mt-24 py-24 sm:py-32" aria-labelledby="work-heading">
       <div className="shell">
-        <SectionLabel index="02" title="Selected work" />
+        <SectionLabel title="Selected work" />
 
         <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <h2 id="work-heading" className="display text-[clamp(2.5rem,7vw,6rem)]">
@@ -37,16 +42,28 @@ export function Work() {
 
       <div className="mt-20 space-y-24 sm:space-y-32">
         {PROJECTS.map((p, i) => (
-          <ProjectRow key={p.id} project={p} flip={i % 2 === 1} onOpen={() => setOpenProject(p)} />
+          <ProjectRow
+            key={p.id}
+            project={p}
+            flip={i % 2 === 1}
+            full={i === PROJECTS.length - 1}
+            onOpen={() => setOpenProject(p)}
+          />
         ))}
       </div>
 
-      {openProject && <CaseStudy project={openProject} onClose={() => setOpenProject(null)} />}
+      {displayProject && (
+        <CaseStudy
+          project={displayProject}
+          open={openProject !== null}
+          onClose={() => setOpenProject(null)}
+        />
+      )}
     </section>
   );
 }
 
-function ProjectImages({ images }: { images: ProjectImage[] }) {
+function ProjectImages({ images, wide = false }: { images: ProjectImage[]; wide?: boolean }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -59,7 +76,9 @@ function ProjectImages({ images }: { images: ProjectImage[] }) {
   }, [images.length]);
 
   return (
-    <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[7/5]">
+    <div
+      className={`relative w-full overflow-hidden ${wide ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[4/5] sm:aspect-[7/5]"}`}
+    >
       {images.map((img, i) => (
         <img
           key={img.src}
@@ -75,7 +94,7 @@ function ProjectImages({ images }: { images: ProjectImage[] }) {
           }`}
         />
       ))}
-      <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-700 group-hover:opacity-0" />
+      <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-300 group-hover:opacity-0" />
 
       {images.length > 1 && (
         <div className="absolute bottom-2 right-2 z-10 flex items-center">
@@ -93,8 +112,10 @@ function ProjectImages({ images }: { images: ProjectImage[] }) {
               className="group/dot flex h-8 w-8 items-center justify-center"
             >
               <span
-                className={`block h-1.5 rounded-full transition-all duration-500 ${
-                  i === active ? "w-5 bg-gold" : "w-1.5 bg-ivory/40 group-hover/dot:bg-gold/70"
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === active
+                    ? "w-5 bg-lavender"
+                    : "w-1.5 bg-ivory/40 group-hover/dot:bg-lavender/70"
                 }`}
               />
             </button>
@@ -105,81 +126,133 @@ function ProjectImages({ images }: { images: ProjectImage[] }) {
   );
 }
 
+function ProjectMeta({ project }: { project: Project }) {
+  return (
+    <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      {[
+        ["Industry", project.industry],
+        ["Service", project.service],
+        ["Type", project.type],
+      ].map(([k, v]) => (
+        <div key={k}>
+          <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
+            {k}
+          </dt>
+          <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 function ProjectRow({
   project,
   flip,
+  full = false,
   onOpen,
 }: {
   project: Project;
   flip: boolean;
+  full?: boolean;
   onOpen: () => void;
 }) {
-  return (
-    <Reveal>
-      <article className="shell">
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={onOpen}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onOpen();
-            }
-          }}
-          data-cursor="view"
-          aria-label={`Open case study: ${project.title}`}
-          className="group block w-full cursor-pointer text-left"
-        >
-          <div className={`grid items-end gap-6 md:gap-8 lg:grid-cols-12 ${flip ? "" : ""}`}>
-            <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-              <ProjectImages images={project.gallery} />
-            </div>
-
-            <div
-              className={`lg:col-span-4 ${flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""}`}
-            >
+  const trigger = (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      data-cursor="view"
+      aria-label={`Open case study: ${project.title}`}
+      className="group block w-full cursor-pointer text-left transition-opacity duration-150 active:opacity-90"
+    >
+      {full ? (
+        <>
+          <ProjectImages images={project.gallery} wide />
+          <div className="mt-8 flex flex-col gap-8 border-t border-line pt-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
               <div className="flex items-baseline gap-4">
                 <span className="text-[0.6875rem] font-medium uppercase tracking-[0.32em] text-faint">
                   {project.index}
                 </span>
-                <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </div>
-              <h3 className="mt-8 text-balance font-serif text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
+              <h3 className="mt-6 text-balance font-serif text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-300 ease-out group-hover:translate-x-1">
                 {project.title}
               </h3>
-              <p className="mt-7 max-w-sm text-[0.8125rem] leading-[1.75] text-muted-foreground">
+            </div>
+            <div className="max-w-sm sm:shrink-0">
+              <p className="text-[0.8125rem] leading-[1.75] text-muted-foreground">
                 {project.summary}
               </p>
-              <dl className="mt-10 grid grid-cols-2 gap-4 border-t border-line pt-6 sm:grid-cols-3">
-                {[
-                  ["Industry", project.industry],
-                  ["Service", project.service],
-                  ["Type", project.type],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
-                      {k}
-                    </dt>
-                    <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-              <span className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-500 group-hover:text-gold">
+              <div className="mt-6 border-t border-line pt-6">
+                <ProjectMeta project={project} />
+              </div>
+              <span className="link-underline mt-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender">
                 View case <ArrowRight />
               </span>
             </div>
           </div>
+        </>
+      ) : (
+        <div className="grid items-end gap-6 md:gap-8 lg:grid-cols-12">
+          <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
+            <ProjectImages images={project.gallery} />
+          </div>
+
+          <div
+            className={`lg:col-span-4 ${flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""}`}
+          >
+            <div className="flex items-baseline gap-4">
+              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.32em] text-faint">
+                {project.index}
+              </span>
+              <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </div>
+            <h3 className="mt-8 text-balance font-serif text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-300 ease-out group-hover:translate-x-1">
+              {project.title}
+            </h3>
+            <p className="mt-7 max-w-sm text-[0.8125rem] leading-[1.75] text-muted-foreground">
+              {project.summary}
+            </p>
+            <div className="mt-10 border-t border-line pt-6">
+              <ProjectMeta project={project} />
+            </div>
+            <span className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender">
+              View case <ArrowRight />
+            </span>
+          </div>
         </div>
-      </article>
+      )}
+    </div>
+  );
+
+  return (
+    <Reveal>
+      <article className="shell">{trigger}</article>
     </Reveal>
   );
 }
 
-function CaseStudy({ project, onClose }: { project: Project; onClose: () => void }) {
-  const { open } = useInquiry();
+function CaseStudy({
+  project,
+  open,
+  onClose,
+}: {
+  project: Project;
+  open: boolean;
+  onClose: () => void;
+}) {
+  const { open: openInquiry } = useInquiry();
+  const { rendered, closing } = useExitTransition(open, 260);
 
   useEffect(() => {
+    if (!open) return undefined;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -187,7 +260,9 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [onClose]);
+  }, [open, onClose]);
+
+  if (!rendered) return null;
 
   return (
     <div
@@ -195,7 +270,11 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
       aria-modal="true"
       aria-label={`${project.title} case study`}
       className="fixed inset-0 z-[75] overflow-y-auto bg-ink"
-      style={{ animation: "fade-in .45s var(--ease-out-expo) both" }}
+      style={{
+        animation: closing
+          ? "overlay-out 260ms var(--ease-soft) both"
+          : "overlay-in 380ms var(--ease-out-expo) both",
+      }}
     >
       <div className="sticky top-0 z-10 border-b border-line bg-ink/80 backdrop-blur-xl">
         <div className="shell flex items-center justify-between py-4">
@@ -204,7 +283,7 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
             type="button"
             onClick={onClose}
             data-cursor="cta"
-            className="text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:text-lavender"
+            className="text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-[color,opacity] duration-150 hover:text-lavender active:opacity-70"
           >
             Close ✕
           </button>
@@ -299,7 +378,7 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
           <MagneticButton
             onClick={() => {
               onClose();
-              open();
+              openInquiry();
             }}
           >
             Start a project <ArrowRight />

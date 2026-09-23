@@ -35,10 +35,10 @@ export function MagneticButton({
   };
 
   const base =
-    "group inline-flex min-h-12 items-center justify-center gap-3 px-5 py-3 text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-500 ease-out will-change-transform sm:px-7 sm:py-4";
+    "group inline-flex min-h-12 items-center justify-center gap-3 px-5 py-3 text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-colors duration-300 ease-out will-change-transform active:opacity-80 sm:px-7 sm:py-4";
   const styles =
     variant === "primary"
-      ? "bg-ivory text-ink hover:bg-gold"
+      ? "bg-ivory text-ink hover:bg-lavender"
       : variant === "invert"
         ? "bg-ivory text-ink hover:bg-lavender"
         : "border border-line-strong text-ivory hover:border-lavender hover:text-lavender";
@@ -54,7 +54,7 @@ export function MagneticButton({
       className={`${base} ${styles} ${mobileAlignment} ${className}`}
       style={{
         transition:
-          "transform 0.45s var(--ease-out-expo), background-color .5s, color .5s, border-color .5s",
+          "transform 0.3s var(--ease-out-expo), background-color .3s, color .3s, border-color .3s, opacity .15s var(--ease-soft)",
       }}
       {...rest}
     >
@@ -67,7 +67,7 @@ export function ArrowRight({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-block transition-transform duration-500 ease-out group-hover:translate-x-1 ${className}`}
+      className={`inline-block transition-transform duration-300 ease-out group-hover:translate-x-1 ${className}`}
     >
       →
     </span>

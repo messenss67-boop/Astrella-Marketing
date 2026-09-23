@@ -40,6 +40,7 @@ function Celestial() {
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-y-0 right-[-6%] hidden w-[38vw] items-center justify-center md:flex lg:w-[32vw]"
+      style={{ animation: "hero-mask-in 900ms var(--ease-out-expo) 150ms both" }}
     >
       <svg ref={ref} viewBox="0 0 600 600" className="h-full w-full will-change-transform">
         <circle cx="300" cy="300" r="250" fill="none" stroke="var(--line)" strokeWidth="0.75" />
@@ -70,7 +71,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-dvh flex-col justify-center overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-36"
+      className="relative flex min-h-dvh flex-col justify-center overflow-hidden pb-16 pt-20 sm:pb-20 sm:pt-24"
     >
       <Celestial />
 
@@ -80,32 +81,17 @@ export function Hero() {
           <span className="label-xs">Independent creative studio</span>
         </Reveal>
 
-        <h1 className="display mt-8 max-w-[15ch] text-[clamp(2.8rem,12vw,10rem)] leading-[0.9] sm:text-[clamp(3.25rem,10vw,10rem)]">
+        <h1 className="display mt-8 max-w-[20ch] text-[clamp(2.8rem,11vw,9rem)] leading-[0.9] sm:text-[clamp(3.25rem,9vw,9rem)]">
           <RevealLines
+            step={110}
             lines={[
-              <>Design that</>,
+              <>Design that makes</>,
               <>
-                makes the <em className="not-italic text-lavender">work</em>
+                the <em className="not-italic text-lavender">work</em> unmistakably yours.
               </>,
-              <>feel unmistakably yours.</>,
             ]}
           />
         </h1>
-
-        <Reveal delay={80} className="mt-7 sm:mt-9">
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.68rem] uppercase tracking-[0.24em] text-ivory-dim/80">
-            {["Web design", "Digital presence", "Social", "Creative direction"].map((s, i) => (
-              <span key={s} className="flex items-center gap-3">
-                {i > 0 && (
-                  <span className="text-lavender" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                {s}
-              </span>
-            ))}
-          </p>
-        </Reveal>
 
         <div className="mt-10 flex flex-col gap-8 border-t border-line pt-8 md:mt-12 md:flex-row md:items-end md:justify-between">
           <Reveal delay={120} className="max-w-xl">
@@ -125,12 +111,12 @@ export function Hero() {
             <a
               href="#work"
               data-cursor="cta"
-              className="group inline-flex min-h-12 items-center justify-center gap-3 border border-line-strong px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors duration-500 hover:border-gold hover:text-gold sm:px-7"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 border border-line-strong px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-[color,border-color,opacity] duration-300 hover:border-lavender hover:text-lavender active:opacity-70 sm:px-7"
             >
               View our work
               <span
                 aria-hidden="true"
-                className="transition-transform duration-500 group-hover:translate-y-1"
+                className="transition-transform duration-300 group-hover:translate-y-1"
               >
                 ↓
               </span>

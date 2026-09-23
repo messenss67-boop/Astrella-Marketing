@@ -9,7 +9,7 @@ export const Route = createFileRoute("/terms")({
   component: TermsPage,
   head: () => ({
     meta: [
-      { title: "Terms & Conditions — Astrella Marketing" },
+      { title: "Terms & Conditions - Astrella Marketing" },
       {
         name: "description",
         content: "Astrella Marketing terms and conditions for website use and project engagement.",

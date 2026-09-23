@@ -14,7 +14,7 @@ export function Manifesto() {
             {WORDS.map((w, i) => (
               <span
                 key={i}
-                className="inline-block transition-all duration-700 ease-out"
+                className="inline-block transition-all duration-300 ease-out"
                 style={{
                   opacity: visible ? 1 : 0.12,
                   transform: visible ? "translateY(0)" : "translateY(12px)",

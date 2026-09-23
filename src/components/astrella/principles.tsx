@@ -1,5 +1,4 @@
-import { Reveal, SectionLabel } from "./reveal";
-import { Star } from "./star";
+import { Reveal, RevealLines } from "./reveal";
 
 const PRINCIPLES = [
   {
@@ -52,34 +51,21 @@ export function Principles() {
       </div>
 
       <div className="shell relative">
-        <SectionLabel index="01" title="Why Astrella" />
-
-        <h2 id="principles-heading" className="sr-only">
-          Why Astrella
+        <h2 id="principles-heading" className="display max-w-[16ch] text-[clamp(2.25rem,6vw,5rem)]">
+          <RevealLines lines={[<>What we won&rsquo;t</>, <>compromise on.</>]} />
         </h2>
 
-        <div className="mt-14 border-t border-line">
+        <div className="mt-16 grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 sm:gap-x-16 lg:gap-x-24">
           {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.n} delay={i * 60}>
-              <article className="group grid items-baseline gap-4 border-b border-line py-10 sm:grid-cols-12 sm:gap-8 sm:py-14">
-                <div className="sm:col-span-3">
-                  <span className="label-xs transition-colors duration-500 group-hover:text-gold">
-                    {p.n}
-                  </span>
-                </div>
-                <div className="sm:col-span-5">
-                  <h3 className="font-serif text-[clamp(1.75rem,3.2vw,2.75rem)] leading-tight tracking-tight text-ivory transition-transform duration-700 ease-out group-hover:translate-x-1">
-                    {p.title}
-                  </h3>
-                  <span
-                    aria-hidden="true"
-                    className="mt-4 block h-px w-10 origin-left scale-x-100 bg-line-strong transition-all duration-700 ease-out group-hover:w-20 group-hover:bg-lavender"
-                  />
-                </div>
-                <div className="flex items-start gap-6 sm:col-span-4">
-                  <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-                  <Star className="mt-1 h-3 w-3 shrink-0 text-lavender opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </div>
+            <Reveal key={p.n} delay={i * 80} className={i % 2 === 1 ? "sm:mt-16" : ""}>
+              <article className="group max-w-md">
+                <span className="font-serif text-[clamp(3rem,7vw,4.5rem)] leading-none text-lavender/25 transition-colors duration-300 group-hover:text-lavender/50">
+                  {p.n}
+                </span>
+                <h3 className="mt-4 font-serif text-[clamp(1.5rem,2.6vw,2.25rem)] leading-tight tracking-tight text-ivory">
+                  {p.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
               </article>
             </Reveal>
           ))}

@@ -27,7 +27,7 @@ function NotFoundComponent() {
         <div className="mt-8 flex justify-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-3 border border-line-strong px-7 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:border-gold hover:text-gold"
+            className="inline-flex items-center gap-3 border border-line-strong px-7 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-colors hover:border-lavender hover:text-lavender"
           >
             Back to Astrella <span aria-hidden="true">→</span>
           </Link>
@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Astrella Marketing — Digital Craft for Brands That Stand Apart" },
+      { title: "Astrella Marketing - Digital Craft for Brands That Stand Apart" },
       {
         name: "description",
         content: "A boutique creative studio for websites, digital experiences and social.",

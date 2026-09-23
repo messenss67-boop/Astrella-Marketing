@@ -54,7 +54,7 @@ export function Footer() {
                       {...(href!.startsWith("http")
                         ? { target: "_blank", rel: "noreferrer noopener" }
                         : {})}
-                      className="link-underline text-sm text-ivory-dim transition-colors hover:text-gold"
+                      className="link-underline text-sm text-ivory-dim transition-colors hover:text-lavender"
                     >
                       {label}
                     </a>
@@ -70,7 +70,7 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:hello@astrellamarketing.com"
-                  className="link-underline transition-colors hover:text-gold"
+                  className="link-underline transition-colors hover:text-lavender"
                 >
                   hello@astrellamarketing.com
                 </a>
@@ -89,7 +89,7 @@ export function Footer() {
                       href={s.href}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="link-underline text-ivory-dim transition-colors hover:text-gold"
+                      className="link-underline text-ivory-dim transition-colors hover:text-lavender"
                     >
                       {s.label}
                     </a>

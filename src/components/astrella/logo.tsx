@@ -3,7 +3,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
     <img
       src="/astrella-logo.png"
       alt="Astrella Marketing"
-      className={`w-auto transition-all duration-700 ease-out ${compact ? "h-8" : "h-10"}`}
+      className={`w-auto transition-all duration-300 ease-out ${compact ? "h-8" : "h-10"}`}
     />
   );
 }

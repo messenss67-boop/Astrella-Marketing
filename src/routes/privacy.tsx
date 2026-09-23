@@ -9,7 +9,7 @@ export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Astrella Marketing" },
+      { title: "Privacy Policy - Astrella Marketing" },
       {
         name: "description",
         content:

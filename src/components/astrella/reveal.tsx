@@ -1,5 +1,32 @@
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
 
+/**
+ * Keeps a component mounted through its exit animation instead of vanishing
+ * the instant `open` flips false. Pass the resulting `closing` flag to pick
+ * an exit keyframe, and stop rendering content once `rendered` is false.
+ */
+export function useExitTransition(open: boolean, exitMs: number) {
+  const [rendered, setRendered] = useState(open);
+  const [closing, setClosing] = useState(false);
+  const wasOpen = useRef(open);
+
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true;
+      setClosing(false);
+      setRendered(true);
+      return undefined;
+    }
+    if (!wasOpen.current) return undefined;
+    wasOpen.current = false;
+    setClosing(true);
+    const t = setTimeout(() => setRendered(false), exitMs);
+    return () => clearTimeout(t);
+  }, [open, exitMs]);
+
+  return { rendered, closing };
+}
+
 export function useInView<T extends HTMLElement>(threshold = 0.2) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
@@ -63,7 +90,7 @@ export function RevealLines({
   lines,
   className = "",
   lineClassName = "",
-  step = 90,
+  step = 60,
 }: RevealLinesProps) {
   const { ref, visible } = useInView<HTMLDivElement>(0.25);
   return (
@@ -81,12 +108,10 @@ export function RevealLines({
   );
 }
 
-export function SectionLabel({ index, title }: { index: string; title: string }) {
+export function SectionLabel({ title }: { title: string }) {
   return (
     <Reveal className="flex items-center gap-3">
-      <span className="label-xs">
-        {index} / {title}
-      </span>
+      <span className="label-xs">{title}</span>
       <span className="h-px w-10 bg-line-strong sm:w-16" />
     </Reveal>
   );

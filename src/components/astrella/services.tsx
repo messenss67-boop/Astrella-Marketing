@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Reveal, RevealLines, SectionLabel } from "./reveal";
+import { Reveal, RevealLines } from "./reveal";
 import { Star } from "./star";
 
 const SERVICES = [
@@ -73,9 +73,7 @@ export function Services() {
       className="shell scroll-mt-24 py-24 sm:py-32"
       aria-labelledby="services-heading"
     >
-      <SectionLabel index="03" title="Services" />
-
-      <h2 id="services-heading" className="display mt-10 text-[clamp(2.5rem,7vw,6rem)]">
+      <h2 id="services-heading" className="display text-[clamp(2.5rem,7vw,6rem)]">
         <RevealLines lines={[<>A focused offer.</>, <>Built for real work.</>]} />
       </h2>
 
@@ -94,15 +92,15 @@ export function Services() {
                   aria-expanded={open}
                   onClick={() => setActive(open ? null : i)}
                   data-cursor="cta"
-                  className="flex w-full items-start justify-between gap-6 py-10 text-left sm:py-14"
+                  className="flex w-full items-start justify-between gap-6 py-10 text-left transition-opacity duration-150 active:opacity-80 sm:py-14"
                 >
                   <span className="flex min-w-0 flex-1 flex-col gap-5 sm:flex-row sm:items-baseline sm:gap-10">
-                    <span className="label-xs pt-2 transition-colors duration-500 group-hover:text-lavender">
+                    <span className="label-xs pt-2 transition-colors duration-300 group-hover:text-lavender">
                       {s.n}
                     </span>
                     <span className="flex flex-col gap-2">
                       <span
-                        className={`font-serif text-[clamp(2rem,5.2vw,4.25rem)] leading-[1.02] tracking-tight transition-colors duration-500 ${
+                        className={`font-serif text-[clamp(2rem,5.2vw,4.25rem)] leading-[1.02] tracking-tight transition-colors duration-300 ${
                           open ? "text-ivory" : "text-ivory-dim group-hover:text-ivory"
                         }`}
                       >
@@ -114,7 +112,7 @@ export function Services() {
                     </span>
                   </span>
                   <span
-                    className={`mt-3 shrink-0 text-lavender transition-transform duration-700 ease-out ${open ? "rotate-90" : ""}`}
+                    className={`mt-3 shrink-0 text-lavender transition-transform duration-300 ease-out ${open ? "rotate-90" : ""}`}
                     aria-hidden="true"
                   >
                     →
@@ -122,7 +120,7 @@ export function Services() {
                 </button>
 
                 <div
-                  className="grid transition-[grid-template-rows,opacity] duration-700 ease-out"
+                  className="grid transition-[grid-template-rows,opacity] duration-300 ease-out"
                   style={{ gridTemplateRows: open ? "1fr" : "0fr", opacity: open ? 1 : 0 }}
                 >
                   <div className="overflow-hidden">
