@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { useModalFocus } from "./use-modal-focus";
 import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { PROJECTS, type Project, type ProjectImage } from "@/data/work";
@@ -239,7 +240,7 @@ function ProjectRow({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Visit live website ↗
+                  Visit live website <ArrowUpRight size={16} aria-hidden="true" className="ml-2" />
                 </a>
               </div>
             )}
@@ -330,7 +331,7 @@ function CaseStudy({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Visit live website ↗
+            Visit live website <ArrowUpRight size={16} aria-hidden="true" className="ml-2" />
           </a>
         )}
         <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-line py-6 sm:grid-cols-5">

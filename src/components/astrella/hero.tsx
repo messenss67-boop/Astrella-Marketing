@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { useInquiry } from "./inquiry";
 import { KITE_AND_KEY, kiteScreens } from "@/data/work";
 export function Hero() {
@@ -40,7 +41,7 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Visit live website <span aria-hidden="true">↗</span>
+            Visit live website <ArrowUpRight size={18} aria-hidden="true" />
           </a>
         </div>
         <figure className="kite-screens">
