@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useModalFocus } from "./use-modal-focus";
+import { useEffect, useState, useRef } from "react";
 import { Logo } from "./logo";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
@@ -6,10 +7,10 @@ import { ArrowRight } from "./magnetic";
 import { useExitTransition } from "./reveal";
 
 const LINKS = [
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
+  { label: "Work", href: "/#work" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/#about" },
 ];
 
 export function Nav() {
@@ -41,7 +42,7 @@ export function Nav() {
         }`}
       >
         <nav className="shell flex items-center justify-between" aria-label="Primary">
-          <a href="#top" data-cursor="cta" aria-label="Astrella Marketing home">
+          <a href="/#top" data-cursor="cta" aria-label="Astrella Marketing home">
             <Logo compact={scrolled} />
           </a>
 
@@ -106,6 +107,8 @@ function MobileMenu({
   onStart: () => void;
 }) {
   const { rendered, closing } = useExitTransition(open, 260);
+  const ref = useRef<HTMLDivElement>(null);
+  useModalFocus(ref, rendered, onClose);
   if (!rendered) return null;
 
   return (
@@ -116,6 +119,7 @@ function MobileMenu({
           ? "overlay-out 220ms var(--ease-soft) both"
           : "overlay-in 320ms var(--ease-out-expo) both",
       }}
+      ref={ref}
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
@@ -170,7 +174,7 @@ function MobileMenu({
         <div>
           <p className="label-xs">Studio</p>
           <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-muted-foreground">
-            A boutique creative studio for websites, digital experiences and social.
+            Website design and social media marketing for local businesses.
           </p>
           <a
             href="mailto:hello@astrellamarketing.com"

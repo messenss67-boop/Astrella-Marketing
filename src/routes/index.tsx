@@ -1,23 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InquiryProvider } from "@/components/astrella/inquiry";
-import { CustomCursor } from "@/components/astrella/cursor";
+
 import { Nav } from "@/components/astrella/nav";
 import { Hero } from "@/components/astrella/hero";
-import { Manifesto } from "@/components/astrella/manifesto";
-import { Principles } from "@/components/astrella/principles";
+
 import { Services } from "@/components/astrella/services";
 import { Work } from "@/components/astrella/work";
-import { Marquee } from "@/components/astrella/marquee";
+
 import { Process } from "@/components/astrella/process";
 import { WhoWeWorkWith } from "@/components/astrella/who-we-work-with";
 import { About } from "@/components/astrella/about";
 import { Closing } from "@/components/astrella/closing";
 import { Footer } from "@/components/astrella/footer";
 
+import { FAQ } from "@/components/astrella/faq";
+
 const SITE_URL = "https://astrellamarketing.com";
-const TITLE = "Astrella Marketing - Boutique creative studio for sharper brands";
+const TITLE = "Astrella Marketing | Web Design & Social Media Agency Cape Town";
 const DESCRIPTION =
-  "Astrella is a boutique creative studio building considered websites, identity systems and digital experiences for brands that want a clearer point of view.";
+  "Astrella Marketing is an independent Cape Town agency providing website design, development and social media marketing for local businesses.";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -55,6 +56,7 @@ export const Route = createFileRoute("/")({
           knowsAbout: [
             "Website design",
             "Website development",
+            "Social media management",
             "Brand identity",
             "Creative direction",
             "Digital strategy",
@@ -69,18 +71,19 @@ function Home() {
   return (
     <InquiryProvider>
       <div className="grain">
-        <CustomCursor />
         <Nav />
-        <main>
+        <a href="#main-content" className="v2-skip">
+          Skip to content
+        </a>
+        <main id="main-content">
           <Hero />
-          <Marquee />
-          <Manifesto />
-          <Principles />
+
           <Work />
           <Services />
           <Process />
           <WhoWeWorkWith />
           <About />
+          <FAQ />
           <Closing />
         </main>
         <Footer />

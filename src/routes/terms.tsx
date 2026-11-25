@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CustomCursor } from "@/components/astrella/cursor";
 import { Footer } from "@/components/astrella/footer";
 import { InquiryProvider } from "@/components/astrella/inquiry";
 import { Nav } from "@/components/astrella/nav";
@@ -23,9 +22,11 @@ function TermsPage() {
   return (
     <InquiryProvider>
       <div className="grain">
-        <CustomCursor />
         <Nav />
-        <main className="shell pb-24 pt-32 sm:pt-40">
+        <a href="#main-content" className="v2-skip">
+          Skip to content
+        </a>
+        <main id="main-content" className="shell pb-24 pt-32 sm:pt-40">
           <div className="max-w-4xl pt-12">
             <p className="label-xs text-lavender">Terms & conditions</p>
             <h1 className="display mt-6 text-[clamp(3rem,7vw,6rem)]">Thoughtful working terms.</h1>
@@ -42,9 +43,10 @@ function TermsPage() {
                 <h2 className="font-serif text-3xl text-ivory">Project enquiries</h2>
               </div>
               <p className="mt-4 max-w-3xl">
-                Enquiries submitted through the website or by email are received for review.
-                Astrella may respond to discuss scope, fit, timeline and deliverables. Any project
-                engagement is subject to a separate written agreement.
+                The enquiry tool prepares an email for you to review and send from your email app.
+                Preparing a draft does not submit an enquiry. Emails you send are received for
+                review. Astrella may respond to discuss scope, fit, timeline and deliverables. Any
+                project engagement is subject to a separate written agreement.
               </p>
             </section>
 

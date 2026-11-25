@@ -5,11 +5,10 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
   type ReactNode,
 } from "react";
-import { Star } from "./star";
-import { ArrowRight, MagneticButton } from "./magnetic";
-import { useExitTransition } from "./reveal";
+import { useModalFocus } from "./use-modal-focus";
 
 interface InquiryContextValue {
   open: () => void;
@@ -39,254 +38,128 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const NEED = ["Website", "Digital presence", "Social", "Creative direction", "Something else"];
-const BUDGET = ["R10k-R25k", "R25k-R50k", "R50k-R100k", "R100k+"];
-
-function Option({
-  label,
-  selected,
-  onSelect,
-}: {
-  label: string;
-  selected: boolean;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      data-cursor="cta"
-      className={`group flex w-full items-center justify-between border-b border-line py-5 text-left transition-[color,opacity] duration-300 active:opacity-70 ${
-        selected ? "text-lavender" : "text-ivory hover:text-lavender"
-      }`}
-    >
-      <span className="font-serif text-3xl tracking-tight sm:text-4xl">{label}</span>
-      <span
-        className="opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[on=true]:opacity-100"
-        data-on={selected}
-      >
-        <Star className="h-3 w-3" />
-      </span>
-    </button>
-  );
-}
-
 function InquiryModal() {
   const { isOpen, close } = useInquiry();
-  const [step, setStep] = useState(0);
-  const [need, setNeed] = useState<string | null>(null);
-  const [budget, setBudget] = useState<string | null>(null);
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const ref = useRef<HTMLDivElement>(null);
+  useModalFocus(ref, isOpen, close);
+  const [draft, setDraft] = useState<string | null>(null);
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    document.addEventListener("keydown", onKey);
+    const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      document.body.style.overflow = overflow;
+      setDraft(null);
     };
-  }, [isOpen, close]);
-
-  const { rendered, closing } = useExitTransition(isOpen, 260);
-
-  useEffect(() => {
-    if (isOpen) return undefined;
-    const t = setTimeout(() => {
-      setStep(0);
-      setNeed(null);
-      setBudget(null);
-      setForm({ name: "", email: "", company: "", message: "" });
-      setError(null);
-      setIsSubmitting(false);
-    }, 260);
-    return () => clearTimeout(t);
   }, [isOpen]);
-
-  if (!rendered) return null;
-
-  const submit = async () => {
-    if (!form.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      setError("Please add your name and a valid email address.");
-      return;
-    }
-    setError(null);
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    setIsSubmitting(false);
-    setStep(3);
-  };
-
-  const steps = [
-    "What do you need?",
-    "What's the budget?",
-    "Tell us about the project.",
-    "Let's make something remarkable.",
-  ];
-
+  if (!isOpen) return null;
   return (
     <div
+      ref={ref}
       role="dialog"
       aria-modal="true"
-      aria-label="Start a project"
+      aria-labelledby="enquiry-title"
       className="fixed inset-0 z-[80] overflow-y-auto bg-ink"
-      style={{
-        animation: closing
-          ? "overlay-out 260ms var(--ease-soft) both"
-          : "overlay-in 380ms var(--ease-out-expo) both",
-      }}
     >
-      <div className="shell flex min-h-dvh flex-col py-8">
-        <div className="flex items-center justify-between">
-          <span className="label-xs">Step {Math.min(step + 1, 4)} of 4</span>
-          <button
-            type="button"
-            onClick={close}
-            data-cursor="cta"
-            className="label-xs text-ivory transition-[color,opacity] duration-150 hover:text-lavender active:opacity-70"
-          >
-            Close ✕
-          </button>
-        </div>
-
-        <div className="mt-2 h-px w-full bg-line">
-          <div
-            className="h-px bg-lavender transition-[width] duration-300 ease-out"
-            style={{ width: `${((Math.min(step, 3) + 1) / 4) * 100}%` }}
-          />
-        </div>
-
-        <div
-          key={step}
-          className="flex flex-1 flex-col justify-center py-12"
-          style={{ animation: "overlay-item-in 380ms var(--ease-out-expo) both" }}
+      <div className="shell py-8">
+        <button onClick={close} className="v2-text-link">
+          Close ✕
+        </button>
+        <h2 id="enquiry-title" className="display mt-10 text-5xl sm:text-7xl">
+          Tell us about your business.
+        </h2>
+        <p className="mt-6 max-w-xl text-muted-foreground">
+          Prepare an enquiry below, then send it with your email app. Nothing is sent from this
+          website. We reply to received emails within two working days.
+        </p>
+        <form
+          className="mt-10 grid max-w-3xl gap-6 sm:grid-cols-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const data = new FormData(e.currentTarget);
+            const body = [
+              "Name: " + data.get("name"),
+              "Business: " + data.get("business"),
+              "Email: " + data.get("email"),
+              "Service: " + data.get("service"),
+              "",
+              data.get("message"),
+            ].join("\n");
+            setDraft(
+              "mailto:hello@astrellamarketing.com?subject=" +
+                encodeURIComponent("Project enquiry — " + data.get("name")) +
+                "&body=" +
+                encodeURIComponent(body),
+            );
+          }}
+          onChange={() => setDraft(null)}
         >
-          <h2 className="display max-w-3xl text-[clamp(2.25rem,6vw,4.5rem)]">{steps[step]}</h2>
-
-          {step === 0 && (
-            <div className="mt-10 max-w-2xl">
-              {NEED.map((n) => (
-                <Option
-                  key={n}
-                  label={n}
-                  selected={need === n}
-                  onSelect={() => {
-                    setNeed(n);
-                    setStep(1);
-                  }}
-                />
-              ))}
-            </div>
-          )}
-
-          {step === 1 && (
-            <div className="mt-10 max-w-2xl">
-              {BUDGET.map((b) => (
-                <Option
-                  key={b}
-                  label={b}
-                  selected={budget === b}
-                  onSelect={() => {
-                    setBudget(b);
-                    setStep(2);
-                  }}
-                />
-              ))}
-            </div>
-          )}
-
-          {step === 2 && (
-            <form
-              className="mt-10 grid max-w-3xl gap-6 sm:grid-cols-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void submit();
-              }}
-            >
-              {(
-                [
-                  ["name", "Name", true],
-                  ["company", "Company", false],
-                  ["email", "Email", true],
-                ] as const
-              ).map(([key, labelText, required]) => (
-                <label key={key} className="block">
-                  <span className="label-xs">
-                    {labelText}
-                    {required ? " *" : ""}
-                  </span>
-                  <input
-                    required={required}
-                    type={key === "email" ? "email" : "text"}
-                    value={form[key]}
-                    onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                    className="mt-3 w-full border-b border-line bg-transparent pb-3 font-serif text-2xl text-ivory outline-none transition-colors focus:border-lavender"
-                  />
-                </label>
-              ))}
-              <label className="block sm:col-span-2">
-                <span className="label-xs">Tell us about the project</span>
-                <textarea
-                  rows={3}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="mt-3 w-full resize-none border-b border-line bg-transparent pb-3 font-serif text-2xl text-ivory outline-none transition-colors focus:border-lavender"
-                />
-              </label>
-              {error && (
-                <p role="alert" className="text-sm text-lavender sm:col-span-2">
-                  {error}
-                </p>
-              )}
-              <div className="sm:col-span-2 flex items-center gap-4">
-                <MagneticButton type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : "Start a conversation"} <ArrowRight />
-                </MagneticButton>
-                {isSubmitting && (
-                  <span className="text-xs uppercase tracking-[0.2em] text-faint">
-                    Preparing your message
-                  </span>
-                )}
-              </div>
-            </form>
-          )}
-
-          {step === 3 && (
-            <div className="mt-8 max-w-xl">
-              <Star className="h-6 w-6 text-lavender" />
-              <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-                Thank you, {form.name.split(" ")[0] || "friend"}. We read every enquiry ourselves
-                and reply within two working days.
+          {[
+            ["name", "Your name", "text", true],
+            ["email", "Email address", "email", true],
+            ["business", "Business name (optional)", "text", false],
+          ].map(([name, label, type, required]) => (
+            <label key={String(name)} className="grid gap-3">
+              <span>{label}</span>
+              <input
+                name={String(name)}
+                type={String(type)}
+                required={Boolean(required)}
+                maxLength={150}
+                autoComplete={name === "business" ? "organization" : String(name)}
+                className="border border-line-strong p-3"
+              />
+            </label>
+          ))}
+          <label className="grid gap-3">
+            Service
+            <select name="service" className="border border-line-strong bg-ink p-3">
+              <option>Website design & development</option>
+              <option>Social media marketing</option>
+              <option>Brand identity</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+          <label className="grid gap-3 sm:col-span-2">
+            What would you like help with?
+            <textarea
+              name="message"
+              required
+              rows={4}
+              maxLength={3000}
+              className="border border-line-strong p-3"
+            />
+          </label>
+          <p className="text-sm text-muted-foreground sm:col-span-2">
+            Your details stay in your browser until you send the email. Please avoid sharing
+            sensitive information. Read our{" "}
+            <a href="/privacy" className="underline">
+              privacy information
+            </a>
+            .
+          </p>
+          <button type="submit" className="v2-button justify-self-start">
+            Prepare email ↗
+          </button>
+          {draft && (
+            <div role="status" className="sm:col-span-2 border-t border-line pt-6">
+              <p>
+                Your email draft is ready. Use the link to open your email app, review it and press
+                Send there.
               </p>
-              <p className="mt-4 text-sm text-faint">
-                {need} · {budget}
+              <a href={draft} className="v2-button mt-4">
+                Open email app ↗
+              </a>
+              <p className="mt-4 text-sm text-muted-foreground">
+                No email app? Email hello@astrellamarketing.com directly, or call{" "}
+                <a href="tel:+27823051165" className="underline">
+                  082 305 1165
+                </a>
+                .
               </p>
-              <button
-                type="button"
-                onClick={close}
-                data-cursor="cta"
-                className="link-underline mt-8 text-[0.7rem] uppercase tracking-[0.2em] text-ivory transition-[color,opacity] active:opacity-70 hover:text-lavender"
-              >
-                Back to the site
-              </button>
             </div>
           )}
-
-          {step > 0 && step < 3 && (
-            <button
-              type="button"
-              onClick={() => setStep(step - 1)}
-              className="link-underline mt-10 self-start text-[0.7rem] uppercase tracking-[0.2em] text-faint transition-[color,opacity] active:opacity-70 hover:text-lavender"
-            >
-              ← Back
-            </button>
-          )}
-        </div>
-
-        <p className="label-xs">hello@astrellamarketing.com</p>
+        </form>
       </div>
     </div>
   );

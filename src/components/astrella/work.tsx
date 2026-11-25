@@ -1,4 +1,5 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useModalFocus } from "./use-modal-focus";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { PROJECTS, type Project, type ProjectImage } from "@/data/work";
 import { Reveal, RevealLines, SectionLabel, useExitTransition } from "./reveal";
 import { Star } from "./star";
@@ -32,9 +33,9 @@ export function Work() {
           </h2>
           <Reveal delay={120} className="max-w-xs">
             <p className="font-serif text-xl leading-snug text-ivory-dim">
-              Built with intention.
+              Self-initiated design studies.
               <br />
-              Designed to be remembered.
+              Our approach, made visible.
             </p>
           </Reveal>
         </div>
@@ -63,17 +64,18 @@ export function Work() {
   );
 }
 
-function ProjectImages({ images, wide = false }: { images: ProjectImage[]; wide?: boolean }) {
+function ProjectImages({
+  images,
+  wide = false,
+  onOpen,
+  title,
+}: {
+  images: ProjectImage[];
+  wide?: boolean;
+  onOpen: () => void;
+  title: string;
+}) {
   const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    if (images.length < 2) return undefined;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const id = setInterval(() => {
-      setActive((i) => (i + 1) % images.length);
-    }, 4500);
-    return () => clearInterval(id);
-  }, [images.length]);
 
   return (
     <div
@@ -96,6 +98,12 @@ function ProjectImages({ images, wide = false }: { images: ProjectImage[]; wide?
       ))}
       <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-300 group-hover:opacity-0" />
 
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`Open case study: ${title}`}
+        className="absolute inset-0 z-[1]"
+      />
       {images.length > 1 && (
         <div className="absolute bottom-2 right-2 z-10 flex items-center">
           {images.map((_, i) => (
@@ -109,7 +117,7 @@ function ProjectImages({ images, wide = false }: { images: ProjectImage[]; wide?
               aria-label={`Show image ${i + 1} of ${images.length}`}
               aria-current={i === active}
               data-cursor="cta"
-              className="group/dot flex h-8 w-8 items-center justify-center"
+              className="group/dot flex h-11 w-11 items-center justify-center"
             >
               <span
                 className={`block h-1.5 rounded-full transition-all duration-300 ${
@@ -132,7 +140,7 @@ function ProjectMeta({ project }: { project: Project }) {
       {[
         ["Industry", project.industry],
         ["Service", project.service],
-        ["Type", project.type],
+        ["Status", "Concept study"],
       ].map(([k, v]) => (
         <div key={k}>
           <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
@@ -157,23 +165,10 @@ function ProjectRow({
   onOpen: () => void;
 }) {
   const trigger = (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={onOpen}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen();
-        }
-      }}
-      data-cursor="view"
-      aria-label={`Open case study: ${project.title}`}
-      className="group block w-full cursor-pointer text-left transition-opacity duration-150 active:opacity-90"
-    >
+    <div className="group block w-full cursor-pointer text-left transition-opacity duration-150 active:opacity-90">
       {full ? (
         <>
-          <ProjectImages images={project.gallery} wide />
+          <ProjectImages images={project.gallery} wide onOpen={onOpen} title={project.title} />
           <div className="mt-8 flex flex-col gap-8 border-t border-line pt-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="flex items-baseline gap-4">
@@ -193,16 +188,20 @@ function ProjectRow({
               <div className="mt-6 border-t border-line pt-6">
                 <ProjectMeta project={project} />
               </div>
-              <span className="link-underline mt-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender">
+              <button
+                type="button"
+                onClick={onOpen}
+                className="link-underline mt-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender"
+              >
                 View case <ArrowRight />
-              </span>
+              </button>
             </div>
           </div>
         </>
       ) : (
         <div className="grid items-end gap-6 md:gap-8 lg:grid-cols-12">
           <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-            <ProjectImages images={project.gallery} />
+            <ProjectImages images={project.gallery} onOpen={onOpen} title={project.title} />
           </div>
 
           <div
@@ -223,9 +222,13 @@ function ProjectRow({
             <div className="mt-10 border-t border-line pt-6">
               <ProjectMeta project={project} />
             </div>
-            <span className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender">
+            <button
+              type="button"
+              onClick={onOpen}
+              className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender"
+            >
               View case <ArrowRight />
-            </span>
+            </button>
           </div>
         </div>
       )}
@@ -250,6 +253,8 @@ function CaseStudy({
 }) {
   const { open: openInquiry } = useInquiry();
   const { rendered, closing } = useExitTransition(open, 260);
+  const ref = useRef<HTMLDivElement>(null);
+  useModalFocus(ref, rendered, onClose);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -266,6 +271,7 @@ function CaseStudy({
 
   return (
     <div
+      ref={ref}
       role="dialog"
       aria-modal="true"
       aria-label={`${project.title} case study`}
@@ -301,7 +307,7 @@ function CaseStudy({
             ["Client", project.client],
             ["Industry", project.industry],
             ["Service", project.service],
-            ["Type", project.type],
+            ["Status", "Concept study"],
             ["Year", project.year],
           ].map(([k, v]) => (
             <div key={k}>

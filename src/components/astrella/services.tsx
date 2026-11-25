@@ -5,11 +5,11 @@ import { Star } from "./star";
 const SERVICES = [
   {
     n: "01",
-    title: "Websites",
+    title: "Website design & development",
     flow: "Strategy → Design → Development → Growth",
     quote:
       "A website shouldn’t just look good. It should give people a reason to trust you and a reason to act.",
-    copy: "Strategy, messaging, design and development for brands that need a sharper digital presence and a stronger reason to stay in the room.",
+    copy: "Custom websites that make your services easy to understand and help visitors take action. Designed for mobile, built with performance and search visibility in mind.",
     caps: [
       "UX & strategy",
       "Copy direction",
@@ -23,28 +23,26 @@ const SERVICES = [
   },
   {
     n: "02",
-    title: "Brand identity",
-    flow: "Positioning → Identity → Guidelines → Application",
+    title: "Social media marketing",
+    flow: "Plan → Create → Publish → Review",
     quote:
-      "A brand that looks confident but says nothing is just decoration. Ours start with what you actually stand for.",
-    copy: "Positioning and visual identity work that makes a brand easier to understand, easier to trust and harder to confuse with the rest of the market.",
+      "Give people a reason to follow your business, and a clear path from interest to enquiry.",
+    copy: "Content planning, creative direction and social media management that keep your business visible and consistent across the platforms your customers use.",
     caps: [
-      "Positioning",
-      "Naming",
-      "Visual identity",
-      "Typography",
-      "Guidelines",
-      "Campaign direction",
+      "Content planning",
+      "Social media management",
+      "Creative direction",
+      "Campaigns",
+      "Reporting",
     ],
   },
   {
     n: "03",
-    title: "Digital experiences",
+    title: "Brand identity & creative direction",
     flow: "Concept → Direction → Build → Launch",
-    quote:
-      "Campaigns move fast. That’s no excuse for them to look like everything else moving fast around them.",
-    copy: "Landing pages, campaign builds and editorial experiences created to move fast without losing the point of view that makes the brand memorable.",
-    caps: ["Landing pages", "Campaign design", "Interactive design", "Storytelling", "Motion"],
+    quote: "Make your business recognisable wherever your customers meet it.",
+    copy: "A consistent visual identity across your website, social content and everyday business materials.",
+    caps: ["Visual identity", "Typography", "Brand guidelines", "Creative direction"],
   },
   {
     n: "04",
@@ -74,7 +72,7 @@ export function Services() {
       aria-labelledby="services-heading"
     >
       <h2 id="services-heading" className="display text-[clamp(2.5rem,7vw,6rem)]">
-        <RevealLines lines={[<>A focused offer.</>, <>Built for real work.</>]} />
+        <RevealLines lines={[<>Look the part.</>, <>Reach the right people.</>]} />
       </h2>
 
       <div className="mt-16 border-t border-line">
@@ -82,14 +80,11 @@ export function Services() {
           const open = active === i;
           return (
             <Reveal key={s.n} delay={i * 80}>
-              <div
-                className="group border-b border-line"
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-              >
+              <div className="group border-b border-line">
                 <button
                   type="button"
                   aria-expanded={open}
+                  aria-controls={`service-${i}`}
                   onClick={() => setActive(open ? null : i)}
                   data-cursor="cta"
                   className="flex w-full items-start justify-between gap-6 py-10 text-left transition-opacity duration-150 active:opacity-80 sm:py-14"
@@ -120,6 +115,8 @@ export function Services() {
                 </button>
 
                 <div
+                  id={`service-${i}`}
+                  aria-hidden={!open}
                   className="grid transition-[grid-template-rows,opacity] duration-300 ease-out"
                   style={{ gridTemplateRows: open ? "1fr" : "0fr", opacity: open ? 1 : 0 }}
                 >

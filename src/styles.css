@@ -32,7 +32,7 @@
 }
 
 :root {
-  --ink: oklch(0.145 0.005 285);
+  --ink: #0c0c10;
   --ink-soft: oklch(0.185 0.006 285);
   --ivory: oklch(0.958 0.014 90);
   --ivory-dim: oklch(0.872 0.014 90);
@@ -42,8 +42,8 @@
 
   --background: var(--ink);
   --foreground: var(--ivory);
-  --muted-foreground: oklch(0.66 0.008 90);
-  --faint: oklch(0.45 0.006 90);
+  --muted-foreground: oklch(0.74 0.008 90);
+  --faint: oklch(0.7 0.006 90);
   --line: oklch(1 0 0 / 12%);
   --line-strong: oklch(1 0 0 / 24%);
 }
@@ -317,5 +317,319 @@
 
   .line-mask > span {
     transform: none;
+  }
+}
+
+/* Astrella 2.0: editorial scale, clear content, restrained motion. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+.line-mask > span {
+  transform: none;
+}
+.grain::after {
+  display: none;
+}
+.v2-eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--lavender);
+  line-height: 1.6;
+}
+.v2-hero {
+  padding-top: 10rem;
+}
+.v2-hero h1 {
+  font-size: clamp(3.3rem, 8.5vw, 8rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  margin: 2rem 0 2.5rem;
+}
+.v2-hero em,
+.v2-about em,
+.v2-industries em,
+.v2-contact em,
+.v2-faq em {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--lavender);
+}
+.v2-hero-bottom,
+.v2-contact-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.v2-hero-bottom p,
+.v2-contact-bottom p {
+  max-width: 33rem;
+  color: var(--muted-foreground);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+.v2-actions {
+  display: flex;
+  gap: 1.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.v2-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ivory);
+  color: var(--ink);
+  padding: 1.1rem 1.5rem;
+  font-size: 0.85rem;
+  min-height: 48px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.v2-button:hover {
+  background: var(--lavender);
+}
+.v2-text-link {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line-strong);
+  font-size: 0.85rem;
+}
+.v2-hero-image {
+  display: block;
+  position: relative;
+  background: #dde4e8;
+  overflow: hidden;
+}
+.v2-hero-image img {
+  width: 100%;
+  aspect-ratio: 2.3;
+  object-fit: cover;
+  object-position: center;
+}
+.v2-hero-image > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  color: #0c0c10;
+  font-size: 0.75rem;
+}
+.v2-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 2rem 0;
+  font-size: 0.8rem;
+  color: var(--ivory-dim);
+}
+.v2-trust p {
+  color: var(--lavender);
+}
+.v2-industries {
+  background: #efede8;
+  color: #17171f;
+  padding-block: 6rem;
+}
+.v2-industries .v2-eyebrow {
+  color: #66517f;
+}
+.v2-industries em {
+  color: #66517f;
+}
+.v2-industries h2,
+.v2-about h2,
+.v2-faq h2,
+.v2-contact h2 {
+  font-size: clamp(2.7rem, 5.7vw, 5.5rem);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
+  margin-top: 1.5rem;
+  font-weight: 400;
+}
+.v2-industry-grid {
+  margin-top: 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+.v2-industry-grid > div {
+  border-top: 1px solid #bdbab8;
+  padding-top: 1.5rem;
+}
+.v2-industry-grid h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+.v2-industry-grid p {
+  font-size: 0.95rem;
+  color: #50505a;
+  line-height: 1.7;
+}
+.v2-about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  padding-block: 7rem;
+}
+.v2-about > img {
+  width: 100%;
+}
+.v2-about p {
+  margin-top: 1.5rem;
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  max-width: 33rem;
+}
+.v2-founder {
+  display: grid;
+  gap: 0.5rem;
+  border-top: 1px solid var(--line);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  font-size: 0.9rem;
+}
+.v2-founder span {
+  color: var(--muted-foreground);
+}
+.v2-founder a {
+  color: var(--lavender);
+  padding-block: 0.5rem;
+}
+.v2-faq {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 5rem;
+  padding-block: 5rem;
+  border-top: 1px solid var(--line);
+}
+.v2-faq details {
+  border-bottom: 1px solid var(--line);
+}
+.v2-faq summary {
+  cursor: pointer;
+  padding: 1.5rem 0;
+  line-height: 1.6;
+}
+.v2-faq details p {
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  padding-bottom: 1.5rem;
+}
+.v2-contact {
+  padding-block: 6rem;
+  scroll-margin-top: 6rem;
+}
+.v2-contact h2 {
+  font-size: clamp(3rem, 8vw, 8rem);
+  margin-bottom: 3rem;
+}
+.v2-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.v2-contact-links a {
+  padding-block: 0.75rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+}
+.v2-footer {
+  padding-block: 3rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2rem;
+  border-top: 1px solid var(--line);
+}
+.v2-footer p {
+  color: var(--muted-foreground);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  margin-top: 1.5rem;
+}
+.v2-footer nav,
+.v2-footer > div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.v2-footer a {
+  display: inline-block;
+  padding-block: 0.4rem;
+}
+.v2-skip {
+  position: fixed;
+  top: 0.5rem;
+  left: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--ivory);
+  color: var(--ink);
+  padding: 1rem;
+}
+.v2-skip:focus {
+  transform: none;
+}
+#about,
+#services {
+  scroll-margin-top: 6rem;
+}
+@media (max-width: 900px) {
+  .v2-hero {
+    padding-top: 8rem;
+  }
+  .v2-hero-bottom,
+  .v2-contact-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .v2-about,
+  .v2-faq {
+    gap: 2.5rem;
+  }
+  .v2-industry-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .v2-hero h1 {
+    font-size: clamp(2.6rem, 10.8vw, 4rem);
+  }
+  .v2-hero-image img {
+    aspect-ratio: 1.25;
+  }
+  .v2-hero-image > span {
+    font-size: 0.65rem;
+    padding-inline: 0.7rem;
+  }
+  .v2-about,
+  .v2-faq,
+  .v2-footer {
+    grid-template-columns: 1fr;
+  }
+  .v2-industry-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .v2-industries,
+  .v2-about,
+  .v2-contact,
+  .v2-faq {
+    padding-block: 4rem;
+  }
+  .v2-trust {
+    gap: 1rem;
+  }
+  .v2-trust p {
+    width: 100%;
   }
 }

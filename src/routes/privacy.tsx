@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CustomCursor } from "@/components/astrella/cursor";
 import { Footer } from "@/components/astrella/footer";
 import { InquiryProvider } from "@/components/astrella/inquiry";
 import { Nav } from "@/components/astrella/nav";
@@ -24,9 +23,11 @@ function PrivacyPage() {
   return (
     <InquiryProvider>
       <div className="grain">
-        <CustomCursor />
         <Nav />
-        <main className="shell pb-24 pt-32 sm:pt-40">
+        <a href="#main-content" className="v2-skip">
+          Skip to content
+        </a>
+        <main id="main-content" className="shell pb-24 pt-32 sm:pt-40">
           <div className="max-w-4xl pt-12">
             <p className="label-xs text-lavender">Privacy policy</p>
             <h1 className="display mt-6 text-[clamp(3rem,7vw,6rem)]">Clear data handling.</h1>
@@ -43,9 +44,11 @@ function PrivacyPage() {
                 <h2 className="font-serif text-3xl text-ivory">What information we collect</h2>
               </div>
               <p className="mt-4 max-w-3xl">
-                When you get in touch through the website or email, we may collect your name, email
-                address, company name, website URL and any message details you share. We only
-                collect what is necessary to understand the enquiry and respond appropriately.
+                The website enquiry tool prepares an email locally in your browser. It does not
+                transmit your details to Astrella. When you choose to send that email, we may
+                receive your name, email address, company name, website URL and any message details
+                you share. We only collect what is necessary to understand the enquiry and respond
+                appropriately.
               </p>
             </section>
 
