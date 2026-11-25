@@ -86,7 +86,7 @@ function InquiryModal() {
               data.get("message"),
             ].join("\n");
             setDraft(
-              "mailto:hello@astrellamarketing.com?subject=" +
+              "mailto:sebastian@astrellamarketing.com?subject=" +
                 encodeURIComponent("Project enquiry — " + data.get("name")) +
                 "&body=" +
                 encodeURIComponent(body),
@@ -151,7 +151,7 @@ function InquiryModal() {
                 Open email app ↗
               </a>
               <p className="mt-4 text-sm text-muted-foreground">
-                No email app? Email hello@astrellamarketing.com directly, or call{" "}
+                No email app? Email sebastian@astrellamarketing.com directly, or call{" "}
                 <a href="tel:+27823051165" className="underline">
                   082 305 1165
                 </a>

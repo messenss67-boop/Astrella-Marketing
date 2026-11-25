@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
           name: "Astrella Marketing",
           description: DESCRIPTION,
           url: SITE_URL,
-          email: "hello@astrellamarketing.com",
+          email: "sebastian@astrellamarketing.com",
           areaServed: "Worldwide",
           address: {
             "@type": "PostalAddress",

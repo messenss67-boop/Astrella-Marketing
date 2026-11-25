@@ -177,10 +177,10 @@ function MobileMenu({
             Website design and social media marketing for local businesses.
           </p>
           <a
-            href="mailto:hello@astrellamarketing.com"
+            href="mailto:sebastian@astrellamarketing.com"
             className="link-underline mt-4 inline-block text-sm text-ivory transition-colors hover:text-lavender"
           >
-            hello@astrellamarketing.com
+            sebastian@astrellamarketing.com
           </a>
         </div>
         <Star className="h-4 w-4 text-lavender" />

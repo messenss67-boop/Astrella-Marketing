@@ -19,7 +19,10 @@ export function Closing() {
         </button>
       </div>
       <div className="v2-contact-links">
-        <a href="mailto:hello@astrellamarketing.com">hello@astrellamarketing.com ↗</a>
+        <a href="mailto:sebastian@astrellamarketing.com">sebastian@astrellamarketing.com ↗</a>
+        <a href="https://wa.me/27823051165" target="_blank" rel="noopener noreferrer">
+          Chat on WhatsApp ↗
+        </a>
         <a href="tel:+27823051165">082 305 1165 ↗</a>
       </div>
     </section>

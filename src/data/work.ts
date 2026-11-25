@@ -1,6 +1,5 @@
 import work01 from "@/assets/work-01.jpg";
 import work02 from "@/assets/work-02.jpg";
-import editorialCommerce2 from "@/assets/editorial-commerce-2.webp";
 import editorialCommerce3 from "@/assets/editorial-commerce-3.webp";
 import socialMediaMarketing1 from "@/assets/social-media-marketing-1.webp";
 
@@ -27,19 +26,35 @@ export interface Project {
   service: string;
   /** Project type — the deliverable format, distinct from the service line. */
   type: string;
-  year: string;
+  year?: string;
   summary: string;
-  cover: ProjectImage;
+  cover?: ProjectImage;
   gallery: ProjectImage[];
   scope: string[];
   sections: { heading: string; body: string }[];
-  placeholder: true;
+  liveUrl?: string;
 }
 
+export const KITE_AND_KEY: Project = {
+  id: "kite-and-key",
+  index: "01",
+  title: "Kite and Key",
+  client: "Kite and Key",
+  industry: "",
+  service: "Website development",
+  type: "Client website",
+  summary:
+    "Astrella built Kite and Key’s website. Explore the finished project on the client’s own domain.",
+  liveUrl: "https://kiteandkey.co.za/",
+  gallery: [],
+  scope: ["Website development"],
+  sections: [],
+};
 export const PROJECTS: Project[] = [
+  KITE_AND_KEY,
   {
     id: "aurea",
-    index: "01",
+    index: "02",
     title: "Aurea",
     client: "Self-initiated",
     industry: "Lifestyle & wellness",
@@ -75,49 +90,6 @@ export const PROJECTS: Project[] = [
         body: "The concept reads as a single considered brand across every surface, with a tone distinct enough to stand apart in a crowded lifestyle category.",
       },
     ],
-    placeholder: true,
-  },
-  {
-    id: "solis",
-    index: "02",
-    title: "Solis",
-    client: "Self-initiated",
-    industry: "Property & hospitality",
-    service: "Website design",
-    type: "Website & digital presence",
-    year: "2026",
-    summary:
-      "A spaces-and-hospitality brand positioned around one idea: people, spaces, possibility, carried through a calm, image-led website.",
-    cover: {
-      src: editorialCommerce2,
-      alt: "Solis website homepage displayed on a laptop",
-      label: "Website: desktop",
-      focus: "70% 42%",
-    },
-    gallery: [
-      {
-        src: editorialCommerce2,
-        alt: "Solis website homepage displayed on a laptop",
-        label: "Website: desktop",
-        focus: "70% 42%",
-      },
-    ],
-    scope: ["UX/UI", "Art direction", "Development", "Performance"],
-    sections: [
-      {
-        heading: "The challenge",
-        body: "The brand needed a website that could hold large, atmospheric photography without slowing down or losing structure underneath it.",
-      },
-      {
-        heading: "The approach",
-        body: "We built a grid-driven layout that lets the photography lead, with a restrained navigation and type system that stays out of the way.",
-      },
-      {
-        heading: "The outcome",
-        body: "The result feels closer to an editorial feature than a typical property site: considered pacing, clear structure, still fast.",
-      },
-    ],
-    placeholder: true,
   },
   {
     id: "aura",
@@ -167,6 +139,5 @@ export const PROJECTS: Project[] = [
         body: "The system holds together across every touchpoint, giving the brand a distinct, recognisable presence without relying on a loud palette.",
       },
     ],
-    placeholder: true,
   },
 ];

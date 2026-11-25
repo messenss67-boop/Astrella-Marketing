@@ -633,3 +633,14 @@
     width: 100%;
   }
 }
+
+.kite-title {
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+  padding: 2rem;
+  background: #dce7e5;
+  color: #183532;
+  font: normal clamp(2.5rem, 7vw, 7rem)/1.1 var(--font-serif);
+  letter-spacing: -0.04em;
+}

@@ -33,7 +33,7 @@ export function Work() {
           </h2>
           <Reveal delay={120} className="max-w-xs">
             <p className="font-serif text-xl leading-snug text-ivory-dim">
-              Self-initiated design studies.
+              Client websites and studio studies.
               <br />
               Our approach, made visible.
             </p>
@@ -81,6 +81,7 @@ function ProjectImages({
     <div
       className={`relative w-full overflow-hidden ${wide ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[4/5] sm:aspect-[7/5]"}`}
     >
+      {images.length === 0 && <div className="kite-title h-full">{title}</div>}
       {images.map((img, i) => (
         <img
           key={img.src}
@@ -140,15 +141,17 @@ function ProjectMeta({ project }: { project: Project }) {
       {[
         ["Industry", project.industry],
         ["Service", project.service],
-        ["Status", "Concept study"],
-      ].map(([k, v]) => (
-        <div key={k}>
-          <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
-            {k}
-          </dt>
-          <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
-        </div>
-      ))}
+        ["Status", project.liveUrl ? "Client project" : "Concept study"],
+      ]
+        .filter(([, value]) => value)
+        .map(([k, v]) => (
+          <div key={k}>
+            <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
+              {k}
+            </dt>
+            <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
+          </div>
+        ))}
     </dl>
   );
 }
@@ -307,31 +310,35 @@ function CaseStudy({
             ["Client", project.client],
             ["Industry", project.industry],
             ["Service", project.service],
-            ["Status", "Concept study"],
+            ["Status", project.liveUrl ? "Client project" : "Concept study"],
             ["Year", project.year],
-          ].map(([k, v]) => (
-            <div key={k}>
-              <dt className="label-xs">{k}</dt>
-              <dd className="mt-2 text-sm text-ivory-dim">{v}</dd>
-            </div>
-          ))}
+          ]
+            .filter(([, value]) => value)
+            .map(([k, v]) => (
+              <div key={k}>
+                <dt className="label-xs">{k}</dt>
+                <dd className="mt-2 text-sm text-ivory-dim">{v}</dd>
+              </div>
+            ))}
         </dl>
 
-        <img
-          src={project.cover.src}
-          alt={project.cover.alt}
-          width={1408}
-          height={1008}
-          loading="lazy"
-          decoding="async"
-          style={{ objectPosition: project.cover.focus ?? "center" }}
-          className="mt-12 aspect-[16/10] w-full object-cover"
-        />
+        {project.cover && (
+          <img
+            src={project.cover.src}
+            alt={project.cover.alt}
+            width={1408}
+            height={1008}
+            loading="lazy"
+            decoding="async"
+            style={{ objectPosition: project.cover.focus ?? "center" }}
+            className="mt-12 aspect-[16/10] w-full object-cover"
+          />
+        )}
 
-        {project.gallery.filter((img) => img.src !== project.cover.src).length > 0 && (
+        {project.gallery.filter((img) => img.src !== project.cover?.src).length > 0 && (
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {project.gallery
-              .filter((img) => img.src !== project.cover.src)
+              .filter((img) => img.src !== project.cover?.src)
               .map((img) => (
                 <figure key={img.src}>
                   <img
@@ -373,10 +380,21 @@ function CaseStudy({
                 </li>
               ))}
             </ul>
-            <p className="mt-10 border-l border-line pl-4 text-xs leading-relaxed text-faint">
-              Concept work presented to illustrate the studio&rsquo;s approach, tone and system
-              thinking.
-            </p>
+            {project.liveUrl ? (
+              <a
+                className="v2-button mt-6"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit client website ↗
+              </a>
+            ) : (
+              <p className="mt-10 border-l border-line pl-4 text-xs leading-relaxed text-faint">
+                Concept work presented to illustrate the studio&rsquo;s approach, tone and system
+                thinking.
+              </p>
+            )}
           </aside>
         </div>
 

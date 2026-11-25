@@ -1,5 +1,5 @@
 import { useInquiry } from "./inquiry";
-import { PROJECTS } from "@/data/work";
+import { KITE_AND_KEY } from "@/data/work";
 export function Hero() {
   const { open } = useInquiry();
   return (
@@ -24,16 +24,15 @@ export function Hero() {
           </a>
         </div>
       </div>
-      <a href="#work" className="v2-hero-image">
-        <img
-          src={PROJECTS[1]!.cover.src}
-          alt="Solis concept website — an example of our approach to hospitality web design"
-          width="1408"
-          height="1008"
-          fetchPriority="high"
-        />
+      <a
+        href={KITE_AND_KEY.liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="v2-hero-image"
+      >
+        <div className="kite-title">Kite and Key</div>
         <span>
-          Design study / Solis<span>Explore the approach ↗</span>
+          Featured client website<span>Visit kiteandkey.co.za ↗</span>
         </span>
       </a>
       <div className="v2-trust">

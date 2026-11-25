@@ -85,7 +85,7 @@ function PrivacyPage() {
               <p className="mt-4 max-w-3xl">
                 You may ask to review, update or delete the personal data we hold about you, subject
                 to legal or operational requirements. If you would like to do so, contact us at
-                hello@astrellamarketing.com.
+                sebastian@astrellamarketing.com.
               </p>
             </section>
           </div>
