@@ -1,3 +1,6 @@
+import kiteDesktop from "@/assets/kite-key-desktop.webp";
+import kiteDetail from "@/assets/kite-key-detail.webp";
+import kiteMobile from "@/assets/kite-key-mobile.webp";
 import work01 from "@/assets/work-01.jpg";
 import work02 from "@/assets/work-02.jpg";
 import editorialCommerce3 from "@/assets/editorial-commerce-3.webp";
@@ -35,20 +38,43 @@ export interface Project {
   liveUrl?: string;
 }
 
+export const kiteScreens = {
+  desktop: {
+    src: kiteDesktop,
+    alt: "Kite & Key’s desktop homepage with Table Mountain across the bay and a yellow kite above the beach",
+    label: "Desktop homepage",
+  },
+  detail: {
+    src: kiteDetail,
+    alt: "Ocean Bliss accommodation listing with a photo gallery, amenities and booking link",
+    label: "Accommodation and booking",
+  },
+  mobile: {
+    src: kiteMobile,
+    alt: "The property estimate and booking options on the Kite & Key mobile homepage",
+    label: "Mobile homepage",
+  },
+};
 export const KITE_AND_KEY: Project = {
   id: "kite-and-key",
   index: "01",
   title: "Kite and Key",
   client: "Kite and Key",
-  industry: "",
+  industry: "Short-stay hospitality",
   service: "Website development",
   type: "Client website",
   summary:
-    "Astrella built Kite and Key’s website. Explore the finished project on the client’s own domain.",
+    "A Blouberg property management website built for two visitors: owners looking for an estimate and guests looking for a place on the coast.",
   liveUrl: "https://kiteandkey.co.za/",
-  gallery: [],
+  cover: kiteScreens.desktop,
+  gallery: [kiteScreens.detail, kiteScreens.desktop, kiteScreens.mobile],
   scope: ["Website development"],
-  sections: [],
+  sections: [
+    {
+      heading: "From the coast to the property",
+      body: "The homepage opens on Blouberg’s coastline, with separate paths to a property estimate and a stay. Guests can browse the Ocean Bliss photo gallery, check amenities and continue to Airbnb to book.",
+    },
+  ],
 };
 export const PROJECTS: Project[] = [
   KITE_AND_KEY,

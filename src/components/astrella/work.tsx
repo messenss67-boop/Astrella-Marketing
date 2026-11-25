@@ -67,11 +67,13 @@ export function Work() {
 function ProjectImages({
   images,
   wide = false,
+  screenshot = false,
   onOpen,
   title,
 }: {
   images: ProjectImage[];
   wide?: boolean;
+  screenshot?: boolean;
   onOpen: () => void;
   title: string;
 }) {
@@ -79,9 +81,8 @@ function ProjectImages({
 
   return (
     <div
-      className={`relative w-full overflow-hidden ${wide ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[4/5] sm:aspect-[7/5]"}`}
+      className={`relative w-full overflow-hidden ${screenshot ? "client-gallery aspect-[8/5]" : wide ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[4/5] sm:aspect-[7/5]"}`}
     >
-      {images.length === 0 && <div className="kite-title h-full">{title}</div>}
       {images.map((img, i) => (
         <img
           key={img.src}
@@ -204,7 +205,12 @@ function ProjectRow({
       ) : (
         <div className="grid items-end gap-6 md:gap-8 lg:grid-cols-12">
           <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-            <ProjectImages images={project.gallery} onOpen={onOpen} title={project.title} />
+            <ProjectImages
+              screenshot={Boolean(project.liveUrl)}
+              images={project.gallery}
+              onOpen={onOpen}
+              title={project.title}
+            />
           </div>
 
           <div
@@ -225,6 +231,18 @@ function ProjectRow({
             <div className="mt-10 border-t border-line pt-6">
               <ProjectMeta project={project} />
             </div>
+            {project.liveUrl && (
+              <div>
+                <a
+                  className="v2-button mt-6"
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit live website ↗
+                </a>
+              </div>
+            )}
             <button
               type="button"
               onClick={onOpen}
@@ -305,6 +323,16 @@ function CaseStudy({
           {project.summary}
         </p>
 
+        {project.liveUrl && (
+          <a
+            className="v2-button mt-6"
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit live website ↗
+          </a>
+        )}
         <dl className="mt-12 grid grid-cols-2 gap-6 border-y border-line py-6 sm:grid-cols-5">
           {[
             ["Client", project.client],
@@ -349,7 +377,11 @@ function CaseStudy({
                     loading="lazy"
                     decoding="async"
                     style={{ objectPosition: img.focus ?? "center" }}
-                    className="aspect-[4/3] w-full object-cover"
+                    className={
+                      project.liveUrl
+                        ? "aspect-[4/3] w-full bg-ink-soft object-contain"
+                        : "aspect-[4/3] w-full object-cover"
+                    }
                   />
                   <figcaption className="mt-3 text-[0.7rem] uppercase tracking-[0.2em] text-faint">
                     {img.label}
@@ -380,16 +412,7 @@ function CaseStudy({
                 </li>
               ))}
             </ul>
-            {project.liveUrl ? (
-              <a
-                className="v2-button mt-6"
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Visit client website ↗
-              </a>
-            ) : (
+            {!project.liveUrl && (
               <p className="mt-10 border-l border-line pl-4 text-xs leading-relaxed text-faint">
                 Concept work presented to illustrate the studio&rsquo;s approach, tone and system
                 thinking.
