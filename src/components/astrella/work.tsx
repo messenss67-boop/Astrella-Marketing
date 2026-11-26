@@ -1,8 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 import { useModalFocus } from "./use-modal-focus";
 import { useEffect, useState, useRef, type CSSProperties } from "react";
-import { PROJECTS, type Project, type ProjectImage } from "@/data/work";
-import { Reveal, RevealLines, SectionLabel, useExitTransition } from "./reveal";
+import { FeaturedWork } from "./featured-work";
+import { KITE_AND_KEY, PROJECTS, type Project, type ProjectImage } from "@/data/work";
+import { Reveal, useExitTransition } from "./reveal";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
 import { ArrowRight, MagneticButton } from "./magnetic";
@@ -24,31 +25,20 @@ export function Work() {
   }, [openProject]);
 
   return (
-    <section id="work" className="scroll-mt-24 py-24 sm:py-32" aria-labelledby="work-heading">
+    <section id="work" className="scroll-mt-24 pb-24 sm:pb-32" aria-labelledby="work-heading">
       <div className="shell">
-        <SectionLabel title="Selected work" />
-
-        <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <h2 id="work-heading" className="display text-[clamp(2.5rem,7vw,6rem)]">
-            <RevealLines lines={[<>Selected work.</>]} />
-          </h2>
-          <Reveal delay={120} className="max-w-xs">
-            <p className="font-serif text-xl leading-snug text-ivory-dim">
-              Client websites and studio studies.
-              <br />
-              Our approach, made visible.
-            </p>
-          </Reveal>
-        </div>
+        <h2 id="work-heading" className="work-heading">
+          Selected work
+        </h2>
+        <FeaturedWork onOpen={() => setOpenProject(KITE_AND_KEY)} />
       </div>
-
       <div className="mt-20 space-y-24 sm:space-y-32">
-        {PROJECTS.map((p, i) => (
+        {PROJECTS.filter((project) => project.id !== KITE_AND_KEY.id).map((p, i, studies) => (
           <ProjectRow
             key={p.id}
             project={p}
             flip={i % 2 === 1}
-            full={i === PROJECTS.length - 1}
+            full={i === studies.length - 1}
             onOpen={() => setOpenProject(p)}
           />
         ))}
