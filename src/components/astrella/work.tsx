@@ -1,20 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
 import { useModalFocus } from "./use-modal-focus";
-import { useEffect, useState, useRef, type CSSProperties } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FeaturedWork } from "./featured-work";
-import { KITE_AND_KEY, PROJECTS, type Project, type ProjectImage } from "@/data/work";
-import { Reveal, useExitTransition } from "./reveal";
+import { PROJECTS, type Project } from "@/data/work";
+import { useExitTransition } from "./reveal";
 import { Star } from "./star";
 import { useInquiry } from "./inquiry";
 import { ArrowRight, MagneticButton } from "./magnetic";
-
-/** CSS custom properties consumed by the `.obj-focus` utility in styles.css. */
-function focusStyle(img: ProjectImage): CSSProperties {
-  return {
-    "--obj-focus": img.focus ?? "center",
-    "--obj-focus-sm": img.focusWide ?? "center",
-  } as CSSProperties;
-}
 
 export function Work() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
@@ -30,16 +22,12 @@ export function Work() {
         <h2 id="work-heading" className="work-heading">
           Selected work
         </h2>
-        <FeaturedWork onOpen={() => setOpenProject(KITE_AND_KEY)} />
-      </div>
-      <div className="mt-20 space-y-24 sm:space-y-32">
-        {PROJECTS.filter((project) => project.id !== KITE_AND_KEY.id).map((p, i, studies) => (
-          <ProjectRow
-            key={p.id}
-            project={p}
-            flip={i % 2 === 1}
-            full={i === studies.length - 1}
-            onOpen={() => setOpenProject(p)}
+        {PROJECTS.map((project, index) => (
+          <FeaturedWork
+            key={project.id}
+            first={index === 0}
+            project={project}
+            onOpen={() => setOpenProject(project)}
           />
         ))}
       </div>
@@ -52,205 +40,6 @@ export function Work() {
         />
       )}
     </section>
-  );
-}
-
-function ProjectImages({
-  images,
-  wide = false,
-  screenshot = false,
-  onOpen,
-  title,
-}: {
-  images: ProjectImage[];
-  wide?: boolean;
-  screenshot?: boolean;
-  onOpen: () => void;
-  title: string;
-}) {
-  const [active, setActive] = useState(0);
-
-  return (
-    <div
-      className={`relative w-full overflow-hidden ${screenshot ? "client-gallery aspect-[8/5]" : wide ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[4/5] sm:aspect-[7/5]"}`}
-    >
-      {images.map((img, i) => (
-        <img
-          key={img.src}
-          src={img.src}
-          alt={img.alt}
-          width={1408}
-          height={1008}
-          loading="lazy"
-          decoding="async"
-          style={focusStyle(img)}
-          className={`obj-focus absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[1200ms] ease-out will-change-transform group-hover:scale-[1.03] ${
-            i === active ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      ))}
-      <span className="pointer-events-none absolute inset-0 bg-ink/20 transition-opacity duration-300 group-hover:opacity-0" />
-
-      <button
-        type="button"
-        onClick={onOpen}
-        aria-label={`Open case study: ${title}`}
-        className="absolute inset-0 z-[1]"
-      />
-      {images.length > 1 && (
-        <div className="absolute bottom-2 right-2 z-10 flex items-center">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setActive(i);
-              }}
-              aria-label={`Show image ${i + 1} of ${images.length}`}
-              aria-current={i === active}
-              data-cursor="cta"
-              className="group/dot flex h-11 w-11 items-center justify-center"
-            >
-              <span
-                className={`block h-1.5 rounded-full transition-all duration-300 ${
-                  i === active
-                    ? "w-5 bg-lavender"
-                    : "w-1.5 bg-ivory/40 group-hover/dot:bg-lavender/70"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ProjectMeta({ project }: { project: Project }) {
-  return (
-    <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-      {[
-        ["Industry", project.industry],
-        ["Service", project.service],
-        ["Status", project.liveUrl ? "Client project" : "Concept study"],
-      ]
-        .filter(([, value]) => value)
-        .map(([k, v]) => (
-          <div key={k}>
-            <dt className="text-[0.625rem] font-medium uppercase tracking-[0.26em] text-faint">
-              {k}
-            </dt>
-            <dd className="mt-2 text-[0.8rem] tracking-normal text-ivory-dim">{v}</dd>
-          </div>
-        ))}
-    </dl>
-  );
-}
-
-function ProjectRow({
-  project,
-  flip,
-  full = false,
-  onOpen,
-}: {
-  project: Project;
-  flip: boolean;
-  full?: boolean;
-  onOpen: () => void;
-}) {
-  const trigger = (
-    <div className="group block w-full cursor-pointer text-left transition-opacity duration-150 active:opacity-90">
-      {full ? (
-        <>
-          <ProjectImages images={project.gallery} wide onOpen={onOpen} title={project.title} />
-          <div className="mt-8 flex flex-col gap-8 border-t border-line pt-8 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <div className="flex items-baseline gap-4">
-                <span className="text-[0.6875rem] font-medium uppercase tracking-[0.32em] text-faint">
-                  {project.index}
-                </span>
-                <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </div>
-              <h3 className="mt-6 text-balance font-serif text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-300 ease-out group-hover:translate-x-1">
-                {project.title}
-              </h3>
-            </div>
-            <div className="max-w-sm sm:shrink-0">
-              <p className="text-[0.8125rem] leading-[1.75] text-muted-foreground">
-                {project.summary}
-              </p>
-              <div className="mt-6 border-t border-line pt-6">
-                <ProjectMeta project={project} />
-              </div>
-              <button
-                type="button"
-                onClick={onOpen}
-                className="link-underline mt-6 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender"
-              >
-                View case <ArrowRight />
-              </button>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className="grid items-end gap-6 md:gap-8 lg:grid-cols-12">
-          <div className={`lg:col-span-8 ${flip ? "lg:order-2 lg:col-start-5" : ""}`}>
-            <ProjectImages
-              screenshot={Boolean(project.liveUrl)}
-              images={project.gallery}
-              onOpen={onOpen}
-              title={project.title}
-            />
-          </div>
-
-          <div
-            className={`lg:col-span-4 ${flip ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""}`}
-          >
-            <div className="flex items-baseline gap-4">
-              <span className="text-[0.6875rem] font-medium uppercase tracking-[0.32em] text-faint">
-                {project.index}
-              </span>
-              <Star className="h-2.5 w-2.5 text-lavender opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </div>
-            <h3 className="mt-8 text-balance font-serif text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[0.98] tracking-[-0.01em] text-ivory transition-transform duration-300 ease-out group-hover:translate-x-1">
-              {project.title}
-            </h3>
-            <p className="mt-7 max-w-sm text-[0.8125rem] leading-[1.75] text-muted-foreground">
-              {project.summary}
-            </p>
-            <div className="mt-10 border-t border-line pt-6">
-              <ProjectMeta project={project} />
-            </div>
-            {project.liveUrl && (
-              <div>
-                <a
-                  className="v2-button mt-6"
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit live website <ArrowUpRight size={16} aria-hidden="true" className="ml-2" />
-                </a>
-              </div>
-            )}
-            <button
-              type="button"
-              onClick={onOpen}
-              className="link-underline mt-9 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-ivory transition-colors duration-300 group-hover:text-lavender"
-            >
-              View case <ArrowRight />
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  return (
-    <Reveal>
-      <article className="shell">{trigger}</article>
-    </Reveal>
   );
 }
 

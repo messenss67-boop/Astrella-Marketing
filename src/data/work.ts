@@ -1,10 +1,12 @@
 import kiteDesktop from "@/assets/kite-key-desktop.webp";
 import kiteDetail from "@/assets/kite-key-detail.webp";
 import kiteMobile from "@/assets/kite-key-mobile.webp";
-import work01 from "@/assets/work-01.jpg";
-import work02 from "@/assets/work-02.jpg";
-import editorialCommerce3 from "@/assets/editorial-commerce-3.webp";
-import socialMediaMarketing1 from "@/assets/social-media-marketing-1.webp";
+import lilianDesktop from "@/assets/lilian-azevedo-desktop.webp";
+import lilianMobile from "@/assets/lilian-azevedo-mobile.webp";
+import lilianDetail from "@/assets/lilian-azevedo-detail.webp";
+import seaDesktop from "@/assets/sea-breeze-eta-desktop.webp";
+import seaMobile from "@/assets/sea-breeze-eta-mobile.webp";
+import seaDetail from "@/assets/sea-breeze-eta-detail.webp";
 
 export interface ProjectImage {
   src: string;
@@ -31,11 +33,12 @@ export interface Project {
   type: string;
   year?: string;
   summary: string;
-  cover?: ProjectImage;
+  cover: ProjectImage;
+  mobile: ProjectImage;
   gallery: ProjectImage[];
   scope: string[];
   sections: { heading: string; body: string }[];
-  liveUrl?: string;
+  liveUrl: string;
 }
 
 export const kiteScreens = {
@@ -66,6 +69,7 @@ export const KITE_AND_KEY: Project = {
   summary:
     "A Blouberg property management website built for two visitors: owners looking for an estimate and guests looking for a place on the coast.",
   liveUrl: "https://kiteandkey.co.za/",
+  mobile: kiteScreens.mobile,
   cover: kiteScreens.desktop,
   gallery: [kiteScreens.detail, kiteScreens.desktop, kiteScreens.mobile],
   scope: ["Website development"],
@@ -76,93 +80,83 @@ export const KITE_AND_KEY: Project = {
     },
   ],
 };
+
+const lilianPhone = {
+  src: lilianMobile,
+  alt: "Lilian Azevedo’s mobile homepage with a featured coastal property",
+  label: "Mobile homepage",
+};
+const seaPhone = {
+  src: seaMobile,
+  alt: "Sea Breeze’s mobile homepage on the Bloubergstrand coast",
+  label: "Mobile homepage",
+};
+
 export const PROJECTS: Project[] = [
   KITE_AND_KEY,
   {
-    id: "aurea",
+    id: "lilian-azevedo",
     index: "02",
-    title: "Aurea",
-    client: "Self-initiated",
-    industry: "Lifestyle & wellness",
-    service: "Website design & social system",
-    type: "Website & content system",
-    year: "2026",
+    title: "Lilian Azevedo Inc",
+    client: "Lilian Azevedo Inc Attorneys",
+    industry: "Property & law",
+    service: "Website development",
+    type: "Client website",
+    liveUrl: "https://lilian-azevedo.vercel.app/",
     summary:
-      "A lifestyle brand built around slower living: a considered website paired with a social presence that carries the same calm, editorial tone.",
+      "One Cape Town practice handles both the sale and the transfer. The website brings its property listings and conveyancing services together, from the first viewing to the final signature.",
     cover: {
-      src: work01,
-      alt: "Close-up of the Aurea website's editorial imagery and layout",
-      label: "Website: editorial detail",
+      src: lilianDesktop,
+      alt: "Lilian Azevedo homepage featuring a Bloubergstrand property and links to properties and legal services",
+      label: "Desktop homepage",
     },
+    mobile: lilianPhone,
     gallery: [
       {
-        src: work01,
-        alt: "Close-up of the Aurea website's editorial imagery and layout",
-        label: "Website: editorial detail",
+        src: lilianDetail,
+        alt: "Introduction to the firm’s property law, conveyancing and notarial services above its listings",
+        label: "Property and legal services",
       },
+      lilianPhone,
     ],
-    scope: ["Art direction", "UX/UI", "Development", "Content direction"],
+    scope: ["Website development"],
     sections: [
       {
-        heading: "The challenge",
-        body: "The idea needed a digital home that felt as considered as the lifestyle it was selling, and a social presence to match, without tipping into the soft, generic visual language most wellness brands default to.",
-      },
-      {
-        heading: "The approach",
-        body: "We built a quiet, editorial system: warm neutrals, restrained typography and imagery that does the talking, carried consistently from the website through to the Instagram grid.",
-      },
-      {
-        heading: "The outcome",
-        body: "The concept reads as a single considered brand across every surface, with a tone distinct enough to stand apart in a crowded lifestyle category.",
+        heading: "Two reasons to visit one practice",
+        body: "Buyers can search by area and explore available homes. Owners and sellers can find the firm’s legal services, learn about the stages of transfer and contact the team.",
       },
     ],
   },
   {
-    id: "aura",
+    id: "sea-breeze",
     index: "03",
-    title: "Aura",
-    client: "Self-initiated",
-    industry: "Wellness & lifestyle retail",
-    service: "Brand identity & content direction",
-    type: "Brand identity & social system",
-    year: "2026",
+    title: "Sea Breeze",
+    client: "Sea Breeze Accommodation",
+    industry: "Coastal accommodation",
+    service: "Website development",
+    type: "Client website",
+    liveUrl: "https://sea-breeze-eta.vercel.app/",
     summary:
-      "A wellness brand identity built for shelf and screen alike: packaging, print collateral and a social system that all read as one considered idea.",
+      "A family-run collection of stays in Bloubergstrand. Guests can compare a guest-house room, a beachfront apartment or a holiday home before choosing where to book.",
     cover: {
-      src: editorialCommerce3,
-      alt: "Aura brand identity applied to packaging, cards and print collateral",
-      label: "Brand identity: packaging",
+      src: seaDesktop,
+      alt: "Sea Breeze homepage showing the shoreline and three accommodation options",
+      label: "Desktop homepage",
     },
+    mobile: seaPhone,
     gallery: [
       {
-        src: editorialCommerce3,
-        alt: "Aura brand identity applied to packaging, cards and print collateral",
-        label: "Brand identity: packaging",
+        src: seaDetail,
+        alt: "Sea Breeze accommodation cards with room photography, occupancy and nightly rates",
+        label: "Choosing a stay",
       },
-      {
-        src: socialMediaMarketing1,
-        alt: "Aura Instagram profile grid displayed on a phone",
-        label: "Social: Instagram profile",
-      },
-      {
-        src: work02,
-        alt: "Moody black-and-white editorial content grid displayed on a phone",
-        label: "Social: content grid",
-      },
+      seaPhone,
     ],
-    scope: ["Brand direction", "Packaging", "Content direction", "Campaign design"],
+    scope: ["Website development"],
     sections: [
       {
-        heading: "The challenge",
-        body: "The brand needed an identity confident enough to hold its own on a shelf, and flexible enough to carry across packaging, print and social.",
-      },
-      {
-        heading: "The approach",
-        body: "We built a dark, tactile identity system: quiet typography, a restrained mark and materials chosen to feel premium in the hand and on screen.",
-      },
-      {
-        heading: "The outcome",
-        body: "The system holds together across every touchpoint, giving the brand a distinct, recognisable presence without relying on a loud palette.",
+        heading: "From the shoreline to a room",
+        body: "Coastal photography sets the scene. Room images, guest capacity and rates help visitors narrow their choice, then the booking link takes them through to dates and guests.",
       },
     ],
   },
